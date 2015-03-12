@@ -1,3 +1,3 @@
-module Payanyway
-  autoload :Engine,     'payanyway/engine'
-end
+require 'rails'
+
+require 'payanyway/engine'
