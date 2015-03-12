@@ -5,7 +5,7 @@ require 'payanyway/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'payanyway'
-  spec.version       = PayAnyWay::VERSION
+  spec.version       = Payanyway::VERSION
   spec.authors       = ['ssnikolay']
   spec.email         = ['ssnikolay@gmail.com']
   spec.summary       = 'simple gem for payanyway payment gateway'
