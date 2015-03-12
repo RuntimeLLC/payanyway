@@ -1,7 +1,9 @@
-require 'pry'
-require 'rspec'
-require 'payanyway'
+require 'rubygems'
+require 'bundler/setup'
 
-Dir['spec/support/**/*.rb'].each do |file|
-  require File.join(File.dirname(__FILE__), '..', file)
-end
+require 'combustion'
+
+Combustion.initialize! :action_controller, :action_view
+
+require 'rspec/rails'
+require 'payanyway'
