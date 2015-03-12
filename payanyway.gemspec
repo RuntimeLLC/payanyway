@@ -4,12 +4,12 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'payanyway/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = :payanyway
+  spec.name          = 'payanyway'
   spec.version       = Payanyway::VERSION
-  spec.authors       = [:ssnikolay]
+  spec.authors       = ['ssnikolay']
   spec.email         = ['ssnikolay@gmail.com']
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = 'simple gem for payanyway payment gateway'
+  spec.description   = 'simple gem for payanyway payment gateway'
   spec.homepage      = ''
   spec.license       = 'MIT'
 
@@ -18,6 +18,11 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(test|spec|features)/})
   spec.require_paths = ['lib']
 
+  spec.add_dependency 'rails', '>= 3.2.0'
+
   spec.add_development_dependency 'bundler', '~> 1.7'
   spec.add_development_dependency 'rake', '~> 10.0'
+  spec.add_development_dependency 'rspec'
+  spec.add_development_dependency 'pry'
+  spec.add_development_dependency 'pumper'
 end
