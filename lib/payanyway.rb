@@ -1,3 +1,3 @@
-module Payanyway
+module PayAnyWay
   autoload :Engine,     'payanyway/engine'
 end
