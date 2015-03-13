@@ -1,8 +1,7 @@
 module Payanyway
   module Response
     class Notify
-
-      @@notification_params_map = {
+      PARAMS = {
         'OutSum'         => :amount,
         'InvId'          => :invoice_id,
         'SignatureValue' => :signature,
@@ -18,21 +17,21 @@ module Payanyway
       end
 
       def perfom
-        validate_signature
         parsed_params = map_params(params, @@notification_params_map)
+        validate_signature(parsed_params)
 
-        success_implementation(
-          parsed_params[:invoice_id],
-          parsed_params[:amount],
-          parsed_params[:language]
-        )
+        success_implementation(parsed_params)
+      end
+
+      def validate_signature(parsed_params)
+
       end
 
       def map_params(params, map)
         Hash[ params.map { |key, value| [ (map[key] || map[key.to_sym ] || key), value] } ]
       end
 
-      def success_implementation(invoice_id, amount, language)
+      def success_implementation(parsed_params)
         # this is called by robokassa server, to actually validate payment
         # Secure.
       end
