@@ -23,8 +23,8 @@ module Payanyway
       @config_for_moneta = PARAMS.configure_by(@config)
     end
 
-    def payment_url(params)
-      PaymentUrl.build(params)
+    def payment_url(params, use_signature = false)
+      PaymentUrl.build(params, use_signature)
     end
 
     class << self
@@ -42,18 +42,35 @@ module Payanyway
   class PaymentUrl
     PARAMS = {
       'MNT_TRANSACTION_ID' => :order_id,
+      'MNT_DESCRIPTION'    => :description,
+      'MNT_SUBSCRIBER_ID'  => :subscriber_id,
+      'MNT_SIGNATURE'      => :signature,
       'MNT_AMOUNT'         => :amount,
       'MNT_CUSTOM1'        => :custom1,
       'MNT_CUSTOM2'        => :custom2,
       'MNT_CUSTOM3'        => :custom3,
     }.to_settings
 
-    def self.build(params)
-      params = PARAMS.configure_by(params)
-      new_params = Payanyway::Gateway.config_for_moneta.merge(params)
-      payment_url = Payanyway::Gateway.config['payment_url']
+    class << self
+      def build(params, use_signature)
+        params = prepare_params(params, use_signature)
+        payment_url = Payanyway::Gateway.config['payment_url']
 
-      "#{ payment_url }?#{ new_params.to_a.map { |option| option.join('=') }.join('&') }"
+        "#{ payment_url }?#{ params.to_a.map { |option| option.join('=') }.join('&') }"
+      end
+
+      private
+
+      def prepare_params(params, use_signature)
+        add_signature(params) if use_signature
+        params = PARAMS.configure_by(params)
+
+        Payanyway::Gateway.config_for_moneta.merge(params)
+      end
+
+      def add_signature(params)
+        raise '#TODO'
+      end
     end
   end
 end
