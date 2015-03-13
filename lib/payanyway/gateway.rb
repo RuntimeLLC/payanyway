@@ -54,18 +54,18 @@ module Payanyway
     class << self
       def build(params, use_signature)
         params = prepare_params(params, use_signature)
-        payment_url = Payanyway::Gateway.config['payment_url']
+        query_params = params.to_a.map { |option| option.map{ |opt| CGI::escape(opt.to_s) }.join('=') }.join('&')
 
-        "#{ payment_url }?#{ params.to_a.map { |option| option.join('=') }.join('&') }"
+        "#{ Payanyway::Gateway.config['payment_url'] }?#{ query_params }"
       end
 
       private
 
       def prepare_params(params, use_signature)
-        add_signature(params) if use_signature
         params = PARAMS.configure_by(params)
 
         Payanyway::Gateway.config_for_moneta.merge(params)
+        #add_signature(params) if use_signature
       end
 
       def add_signature(params)

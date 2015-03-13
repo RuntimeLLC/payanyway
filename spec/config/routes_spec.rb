@@ -7,9 +7,9 @@ describe Payanyway::Engine, type: :routing do
        action: 'success'
     )}
 
-    specify { get('/notify').should route_to(
+    specify { get('/pay').should route_to(
       controller: 'payanyway',
-      action: 'notify'
+      action: 'pay'
     )}
 
     specify { get('/fail').should route_to(
