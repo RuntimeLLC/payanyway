@@ -1,5 +1,5 @@
 development:
-  moneta_id: 1
+  moneta_id: 141290
   test_mode: 1
   success_url: /payanyway/success
   fail_url: /payanyway/success
