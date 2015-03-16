@@ -8,7 +8,7 @@ describe Payanyway::Response::Pay do
       'MNT_AMOUNT'         => 10.20,
       'MNT_CURRENCY_CODE'  => 'RUB',
       'MNT_TEST_MODE'      => 1,
-      'MNT_SIGNATURE'      => '6b49f84478902fe754e0791af5728eae' # from spec/lib/payanyway/helpers/signature_generator_spec.rb
+      'MNT_SIGNATURE'      => '6b49f84478902fe754e0791af5728eae'# from spec/lib/payanyway/helpers/signature_generator_spec.rb
     }
   end
 

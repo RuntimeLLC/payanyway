@@ -24,7 +24,6 @@ module Payanyway
     end
 
     def payment_url(params, use_signature = false)
-
       # Возвращает url на шлюз для входных параметров params
       #   * _params_                  - параметры платежа.
       #   * _use_signature_           - отправить код для идентификации отправителя и проверки целостности данных.
@@ -41,7 +40,7 @@ module Payanyway
       #     * _params[custom1]_       - Поля произвольных параметров.
       #     * _params[custom2]_       - Поля произвольных параметров.
       #     * _params[custom3]_       - Поля произвольных параметров.
-
+      
       Payanyway::Helpers::PaymentUrl.build(params, use_signature)
     end
 
