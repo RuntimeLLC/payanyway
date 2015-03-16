@@ -21,8 +21,8 @@ module Payanyway
       #   => { 'MNT_ID': 1 }
       def configure_by(hash)
         hash.each_with_object({}) do |(key, value), memo|
-          memo[value] = @settings[key] if @settings.has_key?(key)
-        end.invert
+          memo[ @settings[key] ] = value if @settings.has_key?(key)
+        end
       end
     end
   end

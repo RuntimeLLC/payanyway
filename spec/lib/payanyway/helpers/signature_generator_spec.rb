@@ -6,12 +6,12 @@ describe Payanyway::Helpers::SignatureGenerate do
 
     let(:params) {
       {
-        'MNT_ID' => 1,
+        'MNT_ID'             => 1,
         'MNT_TRANSACTION_ID' => 2,
-        'MNT_OPERATION_ID' => 3,
-        'MNT_AMOUNT' => 10.20,
-        'MNT_CURRENCY_CODE' => 'RUB',
-        'MNT_TEST_MODE' => 1
+        'MNT_OPERATION_ID'   => 3,
+        'MNT_AMOUNT'         => 10.20,
+        'MNT_CURRENCY_CODE'  => 'RUB',
+        'MNT_TEST_MODE'      => 1
       }
     }
 
