@@ -40,7 +40,7 @@ module Payanyway
       #     * _params[custom1]_       - Поля произвольных параметров.
       #     * _params[custom2]_       - Поля произвольных параметров.
       #     * _params[custom3]_       - Поля произвольных параметров.
-      
+
       Payanyway::Helpers::PaymentUrl.build(params, use_signature)
     end
 
