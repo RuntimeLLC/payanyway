@@ -52,7 +52,7 @@ module Payanyway
     private
 
     def load_config
-      YAML.load(File.read(File.join(Payanyway::Engine.root, 'config/payanyway.yml')))[@env]
+      YAML.load(File.read(File.join(Rails.root, 'config/payanyway.yml')))[@env]
     end
   end
 end
