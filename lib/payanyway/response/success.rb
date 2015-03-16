@@ -1,39 +1,27 @@
 module Payanyway
   module Response
-    class Notify
+    class Success
       PARAMS = {
-        'OutSum'         => :amount,
-        'InvId'          => :invoice_id,
-        'SignatureValue' => :signature,
-        'Culture'        => :language
-      }
+          'MNT_ID'             => :moneta_id,
+          'MNT_TRANSACTION_ID' => :order_id,
+          'MNT_OPERATION_ID'   => :operation_id,
+          'MNT_AMOUNT'         => :amount,
+          'MNT_CURRENCY_CODE'  => :currency,
+          'MNT_SUBSCRIBER_ID'  => :subscriber_id,
+          'MNT_TEST_MODE'      => :test_mode,
+          'MNT_SIGNATURE'      => :signature,
+          'MNT_USER'           => :user,
+          'MNT_CORRACCOUNT'    => :corraccount,
+          'MNT_CUSTOM1'        => :custom1,
+          'MNT_CUSTOM2'        => :custom2,
+          'MNT_CUSTOM3'        => :custom3,
+      }.invert.to_settings
 
-      def self.perfom(params)
-        new(params).perform
-      end
+      attr_reader :pretty_params
 
       def initialize(params)
         @params = params
-      end
-
-      def perfom
-        parsed_params = map_params(params, @@notification_params_map)
-        validate_signature(parsed_params)
-
-        success_implementation(parsed_params)
-      end
-
-      def validate_signature(parsed_params)
-
-      end
-
-      def map_params(params, map)
-        Hash[ params.map { |key, value| [ (map[key] || map[key.to_sym ] || key), value] } ]
-      end
-
-      def success_implementation(parsed_params)
-        # this is called by robokassa server, to actually validate payment
-        # Secure.
+        @pretty_params = PARAMS.configure_by(params)
       end
     end
   end
