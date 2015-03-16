@@ -2,4 +2,5 @@ development:
   moneta_id: 141290
   currency: RUB
   payment_url: https://demo.moneta.ru/assistant.htm
+  test_mode: 1
   token: secret_token
