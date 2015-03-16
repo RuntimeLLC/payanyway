@@ -24,6 +24,24 @@ module Payanyway
     end
 
     def payment_url(params, use_signature = false)
+
+      # Возвращает url на шлюз для входных параметров params
+      #   * _params_                  - параметры платежа.
+      #   * _use_signature_           - отправить код для идентификации отправителя и проверки целостности данных.
+      #
+      #   Обязателные:
+      #     * _params[order_id]_      - номер заказа в магазине.
+      #     * _params[amount]_        - сумма заказа.
+      #     * _params[currency_code]_ - ISO код валюты (при остутствие береться из конфига).
+      #
+      #   Необязательные:
+      #     * _params[test_mode]_     - Указание, что запрос происходит в тестовом режиме.
+      #     * _params[description]_   - Описание оплаты.
+      #     * _params[subscriber_id]_ - Внутренний идентификатор пользователя в системе магазина.
+      #     * _params[custom1]_       - Поля произвольных параметров.
+      #     * _params[custom2]_       - Поля произвольных параметров.
+      #     * _params[custom3]_       - Поля произвольных параметров.
+
       Payanyway::Helpers::PaymentUrl.build(params, use_signature)
     end
 
