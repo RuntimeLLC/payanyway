@@ -14,10 +14,14 @@ module Payanyway
           MNT_TEST_MODE
         )
         def for_pay(params)
-          md5(PAY.map { |key| params[key] }.join.concat(Payanyway::Gateway.config['token']))
+          md5(PAY.map { |key| get_value(params, key) }.join.concat(Payanyway::Gateway.config['token']))
         end
 
         private
+
+        def get_value(params, key)
+          (key == 'MNT_AMOUNT') ? '%.2f' % params[key] : params[key]
+        end
 
         def md5(str)
           Digest::MD5.hexdigest(str).downcase
