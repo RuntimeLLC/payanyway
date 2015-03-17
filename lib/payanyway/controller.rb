@@ -17,14 +17,14 @@ module Payanyway
     end
 
     def success
-      service = Payanyway::Response::Success.new(params)
+      service = Payanyway::Response::Base.new(params)
       Rails.logger.info("Called success payment url for order '#{ service.pretty_params[:order_id] }'")
 
       success_implementation(service.pretty_params)
     end
 
     def fail
-      service = Payanyway::Response::Success.new(params)
+      service = Payanyway::Response::Base.new(params)
       Rails.logger.error("Fail paid order '#{ service.pretty_params[:order_id] }'")
 
       fail_implementation(service.pretty_params)
@@ -44,12 +44,12 @@ module Payanyway
     end
 
     def success_implementation(params)
-      # Переправляется пользователь после успешной оплаты
+      # Вызывается после успешной оплаты
       render nothing: true
     end
 
     def fail_implementation(params)
-      # Переправляется пользователь после успешной оплаты
+      # Вызывается после ошибки при оплате
       render nothing: true
     end
   end

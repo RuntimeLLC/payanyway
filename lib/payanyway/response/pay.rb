@@ -1,7 +1,7 @@
 module Payanyway
   module Response
-    class Pay
-      PARAMS = {
+    class Pay < Base
+      @@_params = {
         'MNT_ID'             => :moneta_id,
         'MNT_TRANSACTION_ID' => :order_id,
         'MNT_OPERATION_ID'   => :operation_id,
@@ -14,15 +14,8 @@ module Payanyway
         'MNT_CORRACCOUNT'    => :corraccount,
         'MNT_CUSTOM1'        => :custom1,
         'MNT_CUSTOM2'        => :custom2,
-        'MNT_CUSTOM3'        => :custom3,
+        'MNT_CUSTOM3'        => :custom3
       }.invert.to_settings
-
-      attr_reader :pretty_params
-
-      def initialize(params)
-        @params = params
-        @pretty_params = PARAMS.configure_by(params)
-      end
 
       def perform
         @valid_signature = (@pretty_params[:signature] == signature)
