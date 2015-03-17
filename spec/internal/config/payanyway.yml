@@ -1,4 +1,4 @@
-development:
+test:
   moneta_id: 141290
   currency: RUB
   payment_url: https://demo.moneta.ru/assistant.htm
