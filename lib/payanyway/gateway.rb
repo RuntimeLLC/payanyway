@@ -8,11 +8,7 @@ module Payanyway
     PARAMS = {
       'MNT_ID'             => :moneta_id,
       'MNT_TEST_MODE'      => :test_mode,
-      'MNT_CURRENCY_CODE'  => :currency,
-      'MNT_SUCCESS_URL'    => :success_url,
-      'MNT_FAIL_URL'       => :fail_url,
-      'MNT_RETURN_URL'     => :return_url,
-      'MNT_INPROGRESS_URL' => :inprogress_url
+      'MNT_CURRENCY_CODE'  => :currency
     }.to_settings
 
     attr_reader :config, :config_for_moneta

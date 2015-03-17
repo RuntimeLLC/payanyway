@@ -19,7 +19,7 @@ gem 'payanyway'
 
     $ gem install payanyway
 
-## Использование
+## Подключение
 
 Добавьте engine в `config/routes.rb`
 ```ruby
@@ -41,7 +41,7 @@ class PayanywayController
         # вызывается при оповещении магазина об 
         # успешной оплате пользователем заказа.
         #
-        #  params[ KEY ], где KEY: [ moneta_id, order_id,  operation_id, amount,
+        #  params[ KEY ], где KEY ∈ [ moneta_id, order_id,  operation_id, amount,
         #  currency, subscriber_id, test_mode, user, corraccount, custom1,
         #  custom2, custom3 ]
     end
@@ -51,10 +51,36 @@ class PayanywayController
     end
 end
 ```
+Создайте конфигурационный файл: `config/payanyway.yml`
 
-### Расшифровка параметров:
+```yml
+development: &config
+    moneta_id: YOUR_MOTETA_ID
+    currency: RUB
+    payment_url: https://demo.moneta.ru/assistant.htm
+    test_mode: 1
+    token: secret_token
+production: <<: *development
+    payment_url: https://moneta.ru/assistant.htm
+    test_mode: 0
+```
+## Использование
 
- params[ KEY ], где KEY   | Описание
+```ruby
+class OrderController < AplicationController
+    def create
+        order = Order.create(params[:order])
+        redirect_to Payanyway::Gateway.payment_url(
+            order_id: order.id,
+            amount: order.total_amount
+        )
+    end
+end
+```
+
+### Расшифровка параметров
+
+ params[ KEY ], где KEY    | Описание
 --------------------------|:-----------------------------------------------------------
  `moneta_id`              | Идентификатор магазина в системе MONETA.RU.
  `order_id`               | Внутренний идентификатор заказа, однозначно определяющий заказ в магазине.
@@ -65,6 +91,7 @@ end
  `user`                   | Номер счета пользователя, если оплата производилась с пользовательского счета в системе «MONETA.RU».
  `corraccount`            | Номер счета плательщика.
  `custom[i]`              | Параметры, переданные в запросе на оплату через MONETA.Assistant.
+
 ## Contributing
 
 1. Fork it ( https://github.com/ssnikolay/payanyway/fork )
