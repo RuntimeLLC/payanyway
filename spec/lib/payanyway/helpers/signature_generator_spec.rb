@@ -6,7 +6,7 @@ describe Payanyway::Helpers::SignatureGenerate do
 
     let(:params) {
       {
-        'MNT_ID'             => 1,
+        'MNT_ID'             => 141290,
         'MNT_TRANSACTION_ID' => 2,
         'MNT_OPERATION_ID'   => 3,
         'MNT_AMOUNT'         => 10.20,
@@ -15,6 +15,6 @@ describe Payanyway::Helpers::SignatureGenerate do
       }
     }
 
-    it { should eq(Digest::MD5.hexdigest('12310.20RUB1secret_token').downcase) }
+    it { should eq(Digest::MD5.hexdigest('1412902310.20RUB1secret_token').downcase) }
   end
 end
