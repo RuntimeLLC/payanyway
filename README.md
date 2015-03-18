@@ -24,7 +24,7 @@ gem 'payanyway'
 Добавьте engine в `config/routes.rb`
 ```ruby
 Rails.application.routes.draw do
-    mount Payanyway::Engine => '/payanyway'
+  mount Payanyway::Engine => '/payanyway'
 end
 ```
 
@@ -64,7 +64,7 @@ development: &config
     payment_url: https://demo.moneta.ru/assistant.htm
     test_mode: 1
     token: secret_token
-production: <<: *development
+production: <<: *config
     payment_url: https://moneta.ru/assistant.htm
     test_mode: 0
 ```
@@ -75,6 +75,7 @@ production: <<: *development
 Пример:
 ```ruby
 class Order < ActiveRecord::Base; end
+
 class OrdersController < AplicationController
   def create
     order = Order.create(params[:order])
@@ -96,10 +97,10 @@ end
  `:amount`                 | Фактическая сумма, полученная на оплату заказа.
  `:currency`               | ISO код валюты, в которой произведена оплата заказа в магазине.
  `:test_mode`              | Флаг оплаты в тестовом режиме (1 - да, 0 - нет).
- `description`             | Описание оплаты
+ `description`             | Описание оплаты.
  `:subscriber_id`          | Внутренний идентификатор пользователя в системе магазина.
  `:corraccount`            | Номер счета плательщика.
- `:custom[i]`              | Поля произвольных параметров. Будут возращены магазину в параметрах отчета о проведенной оплате.
+ `:custom[1,2,3]`          | Поля произвольных параметров. Будут возращены магазину в параметрах отчета о проведенной оплате.
  `:user`                   | Номер счета пользователя, если оплата производилась с пользовательского счета в системе «MONETA.RU».MONETA.Assistant.
 
 ## Contributing
