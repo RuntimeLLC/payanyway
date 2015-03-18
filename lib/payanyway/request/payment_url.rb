@@ -1,15 +1,25 @@
 module Payanyway
-  module Helpers
+  module Request
     class PaymentUrl
       PARAMS = {
-          'MNT_TRANSACTION_ID' => :order_id,
-          'MNT_DESCRIPTION'    => :description,
-          'MNT_SUBSCRIBER_ID'  => :subscriber_id,
-          'MNT_AMOUNT'         => :amount,
-          'MNT_CUSTOM1'        => :custom1,
-          'MNT_CUSTOM2'        => :custom2,
-          'MNT_CUSTOM3'        => :custom3
-          # 'MNT_SIGNATURE'    => добавляется при use_signature == true
+          'MNT_TRANSACTION_ID'     => :order_id,
+          'MNT_AMOUNT'             => :amount,
+          'MNT_DESCRIPTION'        => :description,
+          'MNT_SUBSCRIBER_ID'      => :subscriber_id,
+
+          'MNT_SUCCESS_URL'        => :success_url,
+          'MNT_INPROGRESS_URL'     => :inprogress_url,
+          'MNT_FAIL_URL'           => :fail_url,
+          'MNT_RETURN_URL'         => :return_url,
+
+          'MNT_CUSTOM1'            => :custom1,
+          'MNT_CUSTOM2'            => :custom2,
+          'MNT_CUSTOM3'            => :custom3,
+
+          'moneta.locale'          => :locale,
+          'paymentSystem.unitId'   => :payment_system_unit_id,
+          'paymentSystem.limitIds' => :payment_system_limit_ids
+          # 'MNT_SIGNATURE'        => добавляется при use_signature == true
       }.to_settings
 
       class << self
