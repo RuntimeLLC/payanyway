@@ -35,8 +35,19 @@ module Payanyway
       #     * _params[custom1]_       - Поля произвольных параметров.
       #     * _params[custom2]_       - Поля произвольных параметров.
       #     * _params[custom3]_       - Поля произвольных параметров.
+      #     * _params[locale]_        - (ru|en) Язык пользовательского интерфейса.
 
-      Payanyway::Helpers::PaymentUrl.build(params, use_signature)
+      #     * _params[payment_system_unit_id ]_   - Предварительный выбор платежной системы. (https://www.moneta.ru/viewPaymentMethods.htm)
+      #     * _params[payment_system_limit_ids ]_ - Список (разделенный запятыми) идентификаторов платежных систем, которые необходимо показывать пользователю. (https://www.moneta.ru/viewPaymentMethods.htm)
+
+      #  Эти параметры используются только тогда, когда в настройках счета выставлен флаг «Можно переопределять настройки в URL»
+      #     * _params[success_url]_   - URL страницы магазина, куда должен попасть покупатель после успешно выполненных действий.
+      #     * _params[inprogress_url]_- URL страницы магазина, куда должен попасть покупатель после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств.
+      #     * _params[fail_url]_      - URL страницы магазина, куда должен попасть покупатель после отмененной или неуспешной оплаты.
+      #     * _params[return_url]_    - URL страницы магазина, куда должен вернуться покупатель при добровольном отказе от оплаты.
+
+
+      Payanyway::Request::PaymentUrl.build(params, use_signature)
     end
 
     class << self
