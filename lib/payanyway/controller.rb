@@ -37,6 +37,13 @@ module Payanyway
       return_implementation(service.pretty_params)
     end
 
+    def in_progress
+      service = Payanyway::Response::Base.new(params)
+      Rails.logger.info("Order '#{ service.pretty_params[:order_id] }' in progress")
+
+      in_progress_implementation(service.pretty_params)
+    end
+
     private
 
     def error_log(params)
@@ -62,6 +69,11 @@ module Payanyway
 
     def return_implementation(params)
       # Вызывается при добровольном отказе пользователем от оплаты
+      render nothing: true
+    end
+
+    def in_progress_implementation(params)
+      # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
       render nothing: true
     end
   end
