@@ -25,23 +25,26 @@ module Payanyway
 
     def fail
       service = Payanyway::Response::Base.new(params)
-      Rails.logger.error("Fail paid order '#{ service.pretty_params[:order_id] }'")
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.error("Fail paid order '#{ order_id }'")
 
-      fail_implementation(service.pretty_params)
+      fail_implementation(order_id)
     end
 
     def return
       service = Payanyway::Response::Base.new(params)
-      Rails.logger.info("Return from payanyway. Order '#{ service.pretty_params[:order_id] }'")
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.info("Return from payanyway. Order '#{ order_id }'")
 
-      return_implementation(service.pretty_params)
+      return_implementation(order_id)
     end
 
     def in_progress
       service = Payanyway::Response::Base.new(params)
-      Rails.logger.info("Order '#{ service.pretty_params[:order_id] }' in progress")
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.info("Order '#{ order_id }' in progress")
 
-      in_progress_implementation(service.pretty_params)
+      in_progress_implementation(order_id)
     end
 
     private
