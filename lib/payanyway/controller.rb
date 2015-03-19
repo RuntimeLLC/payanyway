@@ -25,9 +25,26 @@ module Payanyway
 
     def fail
       service = Payanyway::Response::Base.new(params)
-      Rails.logger.error("Fail paid order '#{ service.pretty_params[:order_id] }'")
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.error("Fail paid order '#{ order_id }'")
 
-      fail_implementation(service.pretty_params)
+      fail_implementation(order_id)
+    end
+
+    def return
+      service = Payanyway::Response::Base.new(params)
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.info("Return from payanyway. Order '#{ order_id }'")
+
+      return_implementation(order_id)
+    end
+
+    def in_progress
+      service = Payanyway::Response::Base.new(params)
+      order_id = service.pretty_params[:order_id]
+      Rails.logger.info("Order '#{ order_id }' in progress")
+
+      in_progress_implementation(order_id)
     end
 
     private
@@ -50,6 +67,16 @@ module Payanyway
 
     def fail_implementation(params)
       # Вызывается после ошибки при оплате
+      render nothing: true
+    end
+
+    def return_implementation(params)
+      # Вызывается при добровольном отказе пользователем от оплаты
+      render nothing: true
+    end
+
+    def in_progress_implementation(params)
+      # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
       render nothing: true
     end
   end

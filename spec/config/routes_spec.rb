@@ -16,5 +16,15 @@ describe Payanyway::Engine, type: :routing do
       controller: 'payanyway',
       action: 'fail'
     )}
+
+    specify { get('/return').should route_to(
+      controller: 'payanyway',
+      action: 'return'
+    )}
+
+    specify { get('/in_progress').should route_to(
+      controller: 'payanyway',
+      action: 'in_progress'
+    )}
   end
 end

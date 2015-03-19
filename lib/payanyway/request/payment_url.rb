@@ -8,7 +8,7 @@ module Payanyway
           'MNT_SUBSCRIBER_ID'      => :subscriber_id,
 
           'MNT_SUCCESS_URL'        => :success_url,
-          'MNT_INPROGRESS_URL'     => :inprogress_url,
+          'MNT_INPROGRESS_URL'     => :in_progress_url,
           'MNT_FAIL_URL'           => :fail_url,
           'MNT_RETURN_URL'         => :return_url,
 
