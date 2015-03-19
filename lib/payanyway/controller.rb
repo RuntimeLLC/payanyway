@@ -30,6 +30,13 @@ module Payanyway
       fail_implementation(service.pretty_params)
     end
 
+    def return
+      service = Payanyway::Response::Base.new(params)
+      Rails.logger.info("Return from payanyway. Order '#{ service.pretty_params[:order_id] }'")
+
+      return_implementation(service.pretty_params)
+    end
+
     private
 
     def error_log(params)
@@ -50,6 +57,11 @@ module Payanyway
 
     def fail_implementation(params)
       # Вызывается после ошибки при оплате
+      render nothing: true
+    end
+
+    def return_implementation(params)
+      # Вызывается при добровольном отказе пользователем от оплаты
       render nothing: true
     end
   end
