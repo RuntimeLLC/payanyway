@@ -44,7 +44,7 @@ class PayanywayController
   
   def pay_implementation(params)
     # вызывается при оповещении магазина об 
-    # успешной оплате пользователем заказа.
+    # успешной оплате пользователем заказа. (Pay URL)
     #
     #  params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
     #  :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
@@ -53,6 +53,23 @@ class PayanywayController
   
   def fail_implementation(order_id)
     # вызывается при отправки шлюзом пользователя на Fail URL.
+  end
+
+  def return_implementation(order_id)
+    # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
+  end
+
+  def in_progress_implementation(order_id)
+    # Вызывается после успешного запроса на авторизацию средств,
+    # до подтверждения списания и зачисления средств (InProgress URL)
+    #
+    # ВНИМАНИЕ: InProgress URL может быть использован в любом способе оплаты.
+    # Если к моменту, когда пользователя надо вернуть в магазин оплата
+    # по какой-либо причине не завершена, то его перекинет на InProgress,
+    # если он указан, если не указан, то на Success URL.
+    # Если операция уже успешно выполнилась, то сразу на Success.
+    # В случае с картами чаще всего получается так, что операция не успевает выполниться,
+    # поэтому InProgress будет использован с бОльшей вероятностью, чем Success URL.
   end
 end
 ```
