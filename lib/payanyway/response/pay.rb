@@ -18,7 +18,8 @@ module Payanyway
       }.invert.to_settings
 
       def perform
-        @valid_signature = (@pretty_params[:signature] == signature)
+        @valid_signature =
+            (@pretty_params[:signature] == Payanyway::Helpers::SignatureGenerate.for_pay(@params))
       end
 
       def success?

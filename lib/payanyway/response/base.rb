@@ -9,6 +9,10 @@ module Payanyway
         @params = params
         @pretty_params = @@_params.configure_by(params)
       end
+
+      def error_message
+        "ERROR! Invalid signature for order #{ @pretty_params[:order_id] }. Params: #{ @params.inspect }"
+      end
     end
   end
 end

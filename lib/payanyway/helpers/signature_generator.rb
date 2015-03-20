@@ -4,6 +4,7 @@ module Payanyway
   module Helpers
     class SignatureGenerate
       class << self
+        # TODO need refactoring
         PAY_KEYS = %w(
           MNT_TRANSACTION_ID
           MNT_OPERATION_ID
@@ -14,14 +15,28 @@ module Payanyway
         )
 
         URL_KEYS = PAY_KEYS - [ 'MNT_OPERATION_ID' ]
+        CHECK_KEYS = [ 'MNT_COMMAND' ] + PAY_KEYS
+
+        CHECK_RESPONSE_KEYS = %w(
+          MNT_RESULT_CODE
+          MNT_ID
+          MNT_TRANSACTION_ID
+        )
 
         def for_pay(params)
           generate_by(params, PAY_KEYS)
         end
 
-
         def for_url(params)
           generate_by(params, URL_KEYS)
+        end
+
+        def for_check(params)
+          generate_by(params, CHECK_KEYS)
+        end
+
+        def for_check_response(params)
+          generate_by(params, CHECK_RESPONSE_KEYS)
         end
 
         private

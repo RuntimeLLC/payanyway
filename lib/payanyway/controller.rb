@@ -11,7 +11,7 @@ module Payanyway
       service.perform
       service.success? ?
         pay_implementation(service.pretty_params) :
-        error_log(service.pretty_params)
+        Rails.logger.error(service.error_message)
 
       render text: service.result
     end
@@ -47,11 +47,15 @@ module Payanyway
       in_progress_implementation(order_id)
     end
 
-    private
+    def check
+      service = Payanyway::Response::Check.new(params)
+      service.perform
+      raise service.error_message unless service.success?
 
-    def error_log(params)
-      Rails.logger.error("ERROR! Invalid signature for order #{ params[:order_id] }. Params: #{ params.inspect }")
+      render xml: service.result(*check_implementation(service.pretty_params)).to_xml
     end
+
+    private
 
     def pay_implementation(params)
       # Вызывается после успешного прохождения
@@ -78,6 +82,11 @@ module Payanyway
     def in_progress_implementation(params)
       # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
       render nothing: true
+    end
+
+    def check_implementation(params)
+      # Ответ на запрос о проверке заказа
+      # { amount: AMOUNT, status: STATUS, attributes: ATTRIBUTES }
     end
   end
 end
