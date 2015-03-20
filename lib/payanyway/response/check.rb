@@ -3,7 +3,6 @@ module Payanyway
     class InvalidStatus < Exception; end
 
     class Check < Base
-
       RESPONSE_CODE = {
         set_amount: 100,
         paid:       200,
@@ -30,10 +29,9 @@ module Payanyway
           'paymentSystem.unitId' => :payment_system_unit_id
       }.invert.to_settings
 
-      def perform
-        # TODO move to initializer
-        @valid_signature =
-            (@pretty_params[:signature] == Payanyway::Helpers::SignatureGenerate.for_check(@params))
+      def initialize(params)
+        super
+        @valid_signature = (@pretty_params[:signature] == Payanyway::Helpers::SignatureGenerate.for_check(@params))
       end
 
       def success?

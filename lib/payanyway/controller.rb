@@ -8,7 +8,6 @@ module Payanyway
 
     def pay
       service = Payanyway::Response::Pay.new(params)
-      service.perform
       service.success? ?
         pay_implementation(service.pretty_params) :
         Rails.logger.error(service.error_message)
@@ -49,7 +48,6 @@ module Payanyway
 
     def check
       service = Payanyway::Response::Check.new(params)
-      service.perform
       raise service.error_message unless service.success?
 
       render xml: service.result(*check_implementation(service.pretty_params)).to_xml

@@ -12,13 +12,9 @@ describe Payanyway::Response::Pay do
     }
   end
 
-  describe '#perform' do
+  describe '#success?' do
     subject { service.success? }
 
-    context 'when success' do
-      before { service.perform }
-
-      it { is_expected.to be_truthy }
-    end
+    it { is_expected.to be_truthy }
   end
 end

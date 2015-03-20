@@ -48,7 +48,7 @@ module Payanyway
         end
 
         def get_value(params, key)
-          (key == 'MNT_AMOUNT') ? '%.2f' % params[key] : params[key]
+          (key == 'MNT_AMOUNT' && params[key].present?) ? '%.2f' % params[key] : params[key]
         end
 
         def md5(str)
