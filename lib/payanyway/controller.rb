@@ -17,33 +17,26 @@ module Payanyway
 
     def success
       service = Payanyway::Response::Base.new(params)
-      Rails.logger.info("Called success payment url for order '#{ service.pretty_params[:order_id] }'")
 
       success_implementation(service.pretty_params)
     end
 
     def fail
       service = Payanyway::Response::Base.new(params)
-      order_id = service.pretty_params[:order_id]
-      Rails.logger.error("Fail paid order '#{ order_id }'")
 
-      fail_implementation(order_id)
+      fail_implementation(service.pretty_params[:order_id])
     end
 
     def return
       service = Payanyway::Response::Base.new(params)
-      order_id = service.pretty_params[:order_id]
-      Rails.logger.info("Return from payanyway. Order '#{ order_id }'")
 
-      return_implementation(order_id)
+      return_implementation(service.pretty_params[:order_id])
     end
 
     def in_progress
       service = Payanyway::Response::Base.new(params)
-      order_id = service.pretty_params[:order_id]
-      Rails.logger.info("Order '#{ order_id }' in progress")
 
-      in_progress_implementation(order_id)
+      in_progress_implementation(service.pretty_params[:order_id])
     end
 
     def check
@@ -64,21 +57,29 @@ module Payanyway
 
     def success_implementation(params)
       # Вызывается после успешной оплаты
+
+      Rails.logger.info("Called success payment url for order '#{ params[:order_id] }'")
       render nothing: true
     end
 
-    def fail_implementation(params)
+    def fail_implementation(order_id)
       # Вызывается после ошибки при оплате
+
+      Rails.logger.error("Fail paid order '#{ order_id }'")
       render nothing: true
     end
 
-    def return_implementation(params)
+    def return_implementation(order_id)
       # Вызывается при добровольном отказе пользователем от оплаты
+
+      Rails.logger.info("Return from payanyway. Order '#{ order_id }'")
       render nothing: true
     end
 
-    def in_progress_implementation(params)
+    def in_progress_implementation(order_id)
       # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
+
+      Rails.logger.info("Order '#{ order_id }' in progress")
       render nothing: true
     end
 
