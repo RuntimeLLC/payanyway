@@ -52,34 +52,34 @@ module Payanyway
       # Вызывается после успешного прохождения
       # запроса об оплате от payanyway.ru
 
-      Rails.logger.info("Success paid order #{ params[:order_id] }")
+      Rails.logger.info("PAYANYWAY: Success paid order #{ params[:order_id] }")
     end
 
     def success_implementation(params)
       # Вызывается после успешной оплаты
 
-      Rails.logger.info("Called success payment url for order '#{ params[:order_id] }'")
+      Rails.logger.info("PAYANYWAY: Called success payment url for order '#{ params[:order_id] }'")
       render nothing: true
     end
 
     def fail_implementation(order_id)
       # Вызывается после ошибки при оплате
 
-      Rails.logger.error("Fail paid order '#{ order_id }'")
+      Rails.logger.error("PAYANYWAY: Fail paid order '#{ order_id }'")
       render nothing: true
     end
 
     def return_implementation(order_id)
       # Вызывается при добровольном отказе пользователем от оплаты
 
-      Rails.logger.info("Return from payanyway. Order '#{ order_id }'")
+      Rails.logger.info("PAYANYWAY: Return from payanyway. Order '#{ order_id }'")
       render nothing: true
     end
 
     def in_progress_implementation(order_id)
       # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
 
-      Rails.logger.info("Order '#{ order_id }' in progress")
+      Rails.logger.info("PAYANYWAY: Order '#{ order_id }' in progress")
       render nothing: true
     end
 
