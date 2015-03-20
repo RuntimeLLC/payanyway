@@ -32,4 +32,21 @@ describe PayanywayController do
       get :in_progress, { 'MNT_TRANSACTION_ID' => 676 }
     end
   end
+
+  describe 'GET #check' do
+    context 'when invalid signature' do
+      it 'should raise error' do
+        expect{ get :check }.to raise_error
+      end
+    end
+
+    context 'when valid signature' do
+      it 'should and message to logger' do
+        expect_any_instance_of(Payanyway::Controller).to receive(:check_implementation).and_return({amount: 12, status: :paid})
+        get :check, { 'MNT_TRANSACTION_ID' => 676, 'MNT_SIGNATURE' => '79c1c4f41a0a70bb107c976ebba25811' }
+
+        expect(Nokogiri::XML(response.body).at_css('MNT_RESPONSE')).to be_present
+      end
+    end
+  end
 end

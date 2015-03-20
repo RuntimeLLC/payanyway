@@ -26,5 +26,10 @@ describe Payanyway::Engine, type: :routing do
       controller: 'payanyway',
       action: 'in_progress'
     )}
+
+    specify { get('/check').should route_to(
+      controller: 'payanyway',
+      action: 'check'
+    )}
   end
 end

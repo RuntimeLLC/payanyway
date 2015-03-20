@@ -43,7 +43,7 @@ module Payanyway
       service = Payanyway::Response::Check.new(params)
       raise service.error_message unless service.success?
 
-      render xml: service.result(*check_implementation(service.pretty_params)).to_xml
+      render xml: service.result(check_implementation(service.pretty_params)).to_xml
     end
 
     private
@@ -85,7 +85,7 @@ module Payanyway
 
     def check_implementation(params)
       # Ответ на запрос о проверке заказа
-      # { amount: AMOUNT, status: STATUS, attributes: ATTRIBUTES }
+      # { amount: AMOUNT, status: STATUS, description: description, attributes: ATTRIBUTES }
     end
   end
 end

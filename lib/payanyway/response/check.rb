@@ -38,14 +38,20 @@ module Payanyway
         @valid_signature
       end
 
-      def result(amount, status, description, attributes = {})
-        validate_status!(status)
+      def result(attr)
+        # Возвращает Nokogiri::XML документ
+        #  * _attr[:amount]      - сумма заказа
+        #  * _attr[:status]      - статус платежа(см. RESPONSE_CODE)
+        #  * _attr[:description] - Произвольное описание заказа (необязятельно)
+        #  * _attr[:attributes]  - Произвольный атрибуты заказа (необязятельно)
 
-        xml = base_xml(amount, status, description)
+        validate_status!(attr[:status])
+
+        xml = base_xml(attr[:amount], attr[:status], attr[:description])
         parent = xml.at_css('MNT_RESPONSE')
 
         parent.add_child(signature_node(xml))
-        parent.add_child(attributes_node(attributes, xml)) if attributes.present?
+        parent.add_child(attributes_node(attributes, xml)) if attr[:attributes].present?
 
         xml
       end
