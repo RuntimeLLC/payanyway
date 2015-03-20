@@ -1,6 +1,17 @@
 module Payanyway
   module Response
+    class InvalidStatus < Exception; end
+
     class Check < Base
+
+      RESPONSE_CODE = {
+        set_amount: 100,
+        paid:       200,
+        in_process: 302,
+        unpaid:     402,
+        canceled:   500
+      }
+
       @@_params = {
           'MNT_COMMAND'          => :command,
           'MNT_ID'               => :moneta_id,
@@ -30,6 +41,8 @@ module Payanyway
       end
 
       def result(amount, status, description, attributes = {})
+        validate_status!(status)
+
         xml = base_xml(amount, status, description)
         parent = xml.at_css('MNT_RESPONSE')
 
@@ -40,6 +53,12 @@ module Payanyway
       end
 
       private
+
+      def validate_status!(status)
+        if RESPONSE_CODE.keys.exclude?(status.to_sym)
+          raise InvalidStatus.new("PAYANYWAY: Invalid response status! Status must be eq #{ RESPONSE_CODE.keys }")
+        end
+      end
 
       def base_xml(amount, status, description)
         xml = <<-EOXML
@@ -56,15 +75,18 @@ module Payanyway
       end
 
       def signature_node(xml)
-        create_new_node(
-          'MNT_SIGNATURE',
+        create_new_node('MNT_SIGNATURE',
           Payanyway::Helpers::SignatureGenerate.for_check_response(Hash.from_xml(xml.to_s)['MNT_RESPONSE']),
           xml
         )
       end
 
       def result_code_of(amount, status)
-        402
+        if @pretty_params[:amount].blank? && amount.present?
+          RESPONSE_CODE[:set_amount]
+        else
+          RESPONSE_CODE[status.to_sym]
+        end
       end
 
       def attributes_node(attributes, xml)

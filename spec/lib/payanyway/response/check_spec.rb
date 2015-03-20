@@ -31,7 +31,7 @@ describe Payanyway::Response::Check do
 
     context 'when code 402' do
       it 'should valid xml' do
-        expected = <<-XML
+        expected = <<-EOXML
           <MNT_RESPONSE>
             <MNT_ID>141290</MNT_ID>
             <MNT_TRANSACTION_ID>2</MNT_TRANSACTION_ID>
@@ -40,7 +40,7 @@ describe Payanyway::Response::Check do
             <MNT_AMOUNT>10.2</MNT_AMOUNT>
             <MNT_SIGNATURE>061c2b859c27c75db9e5bbef3aef90a0</MNT_SIGNATURE>
           </MNT_RESPONSE>
-        XML
+        EOXML
         expected_xml = Nokogiri::XML(expected, nil, 'UTF-8')
 
         expect(xml.at_css('MNT_RESPONSE')).to be_eq_node(expected_xml.at_css('MNT_RESPONSE'))
@@ -51,7 +51,7 @@ describe Payanyway::Response::Check do
       let(:attributes) { { type: 'chocolate', brand: 'Mars' } }
 
       it 'should generate attributes xml' do
-        expected = <<-XML
+        expected = <<-EOXML
           <MNT_RESPONSE>
             <MNT_ATTRIBUTES>
               <ATTRIBUTE>
@@ -64,10 +64,38 @@ describe Payanyway::Response::Check do
               </ATTRIBUTE>
             </MNT_ATTRIBUTES>
           </MNT_RESPONSE>
-        XML
+        EOXML
 
         expected_xml = Nokogiri::XML(expected, nil, 'UTF-8')
         expect(xml.at_css('MNT_ATTRIBUTES')).to be_eq_node(expected_xml.at_css('MNT_ATTRIBUTES'))
+      end
+    end
+
+    describe 'response code' do
+      context 'when invalid status' do
+        let(:status) { 'foobar' }
+        it 'should raise error' do
+          expect { xml }.to raise_error(Payanyway::Response::InvalidStatus)
+        end
+      end
+
+      context 'when set amount' do
+        let(:request_amount) { nil }
+        let(:amount) { 10.10 }
+
+        it 'should eq 100' do
+          code_node = xml.at_css('MNT_RESULT_CODE')
+          expect(code_node.text).to eq('100')
+        end
+      end
+
+      context 'when valid status' do
+        let(:status) { :paid }
+
+        it 'should eq 200' do
+          code_node = xml.at_css('MNT_RESULT_CODE')
+          expect(code_node.text).to eq('200')
+        end
       end
     end
   end
