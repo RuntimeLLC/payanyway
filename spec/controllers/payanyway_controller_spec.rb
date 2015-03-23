@@ -34,9 +34,15 @@ describe PayanywayController do
   end
 
   describe 'GET #check' do
+    context 'when empty params' do
+      it 'should raise error' do
+        expect{ get :check }.not_to raise_error
+      end
+    end
+
     context 'when invalid signature' do
       it 'should raise error' do
-        expect{ get :check }.to raise_error
+        expect{ get(:check, { 'MNT_TRANSACTION_ID' => 676 }) }.to raise_error
       end
     end
 

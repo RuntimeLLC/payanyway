@@ -41,9 +41,15 @@ module Payanyway
 
     def check
       service = Payanyway::Response::Check.new(params)
-      raise service.error_message unless service.success?
+      if service.pretty_params.present?
+        raise service.error_message unless service.success?
 
-      render xml: service.result(check_implementation(service.pretty_params)).to_xml
+        render xml: service.result(check_implementation(service.pretty_params)).to_xml
+      else
+        # Не выдавать ошибку, если параметры пустые
+        # Необходимо для проверки со стороны moneta.ru
+        render nothing: true
+      end
     end
 
     private
