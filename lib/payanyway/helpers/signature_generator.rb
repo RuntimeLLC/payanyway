@@ -3,27 +3,29 @@ require 'digest/md5'
 module Payanyway
   module Helpers
     class SignatureGenerate
+      BASE_KEYS = %w(
+        MNT_TRANSACTION_ID
+        MNT_OPERATION_ID
+        MNT_AMOUNT
+        MNT_CURRENCY_CODE
+        MNT_SUBSCRIBER_ID
+        MNT_TEST_MODE
+      )
+
+      KEYS = {
+        pay: BASE_KEYS,
+        url: BASE_KEYS - [ 'MNT_OPERATION_ID' ],
+        check: [ 'MNT_COMMAND' ] + BASE_KEYS,
+        check_response:  %w(MNT_RESULT_CODE MNT_ID MNT_TRANSACTION_ID)
+      }
+
+      KEYS.each do |key_name, keys|
+        define_singleton_method("for_#{ key_name }") do |params|
+          generate_by(params, keys)
+        end
+      end
+
       class << self
-        PAY_KEYS = %w(
-          MNT_TRANSACTION_ID
-          MNT_OPERATION_ID
-          MNT_AMOUNT
-          MNT_CURRENCY_CODE
-          MNT_SUBSCRIBER_ID
-          MNT_TEST_MODE
-        )
-
-        URL_KEYS = PAY_KEYS - [ 'MNT_OPERATION_ID' ]
-
-        def for_pay(params)
-          generate_by(params, PAY_KEYS)
-        end
-
-
-        def for_url(params)
-          generate_by(params, URL_KEYS)
-        end
-
         private
 
         def generate_by(params, keys)
@@ -33,7 +35,7 @@ module Payanyway
         end
 
         def get_value(params, key)
-          (key == 'MNT_AMOUNT') ? '%.2f' % params[key] : params[key]
+          (key == 'MNT_AMOUNT' && params[key].present?) ? '%.2f' % params[key] : params[key]
         end
 
         def md5(str)

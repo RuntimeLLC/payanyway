@@ -17,8 +17,9 @@ module Payanyway
         'MNT_CUSTOM3'        => :custom3
       }.invert.to_settings
 
-      def perform
-        @valid_signature = (@pretty_params[:signature] == signature)
+      def initialize(params)
+        super
+        @valid_signature = (@pretty_params[:signature] == Payanyway::Helpers::SignatureGenerate.for_pay(@params))
       end
 
       def success?

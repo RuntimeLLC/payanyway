@@ -12,20 +12,9 @@ describe Payanyway::Response::Pay do
     }
   end
 
-  describe '#pretty_params' do
-    subject { service.pretty_params }
-
-    its([:moneta_id]) { is_expected.to eq(1) }
-    its([:amount]) { is_expected.to eq(10.20) }
-  end
-
-  describe '#perform' do
+  describe '#success?' do
     subject { service.success? }
 
-    context 'when success' do
-      before { service.perform }
-
-      it { is_expected.to be_truthy }
-    end
+    it { is_expected.to be_truthy }
   end
 end
