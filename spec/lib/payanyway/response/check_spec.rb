@@ -23,9 +23,9 @@ describe Payanyway::Response::Check do
   end
 
   describe '#result' do
-    let(:xml) { service.result(amount, status, description, attributes) }
+    let(:xml) { service.result(amount: amount, state: state, description: description, attributes: attributes) }
     let(:amount) { request_amount }
-    let(:status) { :unpaid }
+    let(:state) { :unpaid }
     let(:description) { 'Заказ создан, но не оплачен' }
     let(:attributes) { {} }
 
@@ -73,9 +73,9 @@ describe Payanyway::Response::Check do
 
     describe 'response code' do
       context 'when invalid status' do
-        let(:status) { 'foobar' }
+        let(:state) { 'foobar' }
         it 'should raise error' do
-          expect { xml }.to raise_error(Payanyway::Response::InvalidStatus)
+          expect { xml }.to raise_error(Payanyway::Response::InvalidState)
         end
       end
 
@@ -90,7 +90,7 @@ describe Payanyway::Response::Check do
       end
 
       context 'when valid status' do
-        let(:status) { :paid }
+        let(:state) { :paid }
 
         it 'should eq 200' do
           code_node = xml.at_css('MNT_RESULT_CODE')

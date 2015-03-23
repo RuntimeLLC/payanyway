@@ -1,6 +1,6 @@
 module Payanyway
   module Response
-    class InvalidStatus < Exception; end
+    class InvalidState < Exception; end
 
     class Check < Base
       RESPONSE_CODE = {
@@ -41,17 +41,17 @@ module Payanyway
       def result(attr)
         # Возвращает Nokogiri::XML документ
         #  * _attr[:amount]      - сумма заказа
-        #  * _attr[:status]      - статус платежа(см. RESPONSE_CODE)
+        #  * _attr[:state]      - статус платежа(см. RESPONSE_CODE)
         #  * _attr[:description] - Произвольное описание заказа (необязятельно)
         #  * _attr[:attributes]  - Произвольный атрибуты заказа (необязятельно)
 
-        validate_status!(attr[:status])
+        validate_status!(attr[:state])
 
-        xml = base_xml(attr[:amount], attr[:status], attr[:description])
+        xml = base_xml(attr[:amount], attr[:state], attr[:description])
         parent = xml.at_css('MNT_RESPONSE')
 
         parent.add_child(signature_node(xml))
-        parent.add_child(attributes_node(attributes, xml)) if attr[:attributes].present?
+        parent.add_child(attributes_node(attr[:attributes], xml)) if attr[:attributes].present?
 
         xml
       end
@@ -60,16 +60,16 @@ module Payanyway
 
       def validate_status!(status)
         if RESPONSE_CODE.keys.exclude?(status.to_sym)
-          raise InvalidStatus.new("PAYANYWAY: Invalid response status! Status must be eq #{ RESPONSE_CODE.keys }")
+          raise InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
         end
       end
 
-      def base_xml(amount, status, description)
+      def base_xml(amount, state, description)
         xml = <<-EOXML
           <MNT_RESPONSE>
             <MNT_ID>#{ Payanyway::Gateway.config['moneta_id'] }</MNT_ID>
             <MNT_TRANSACTION_ID>#{ @pretty_params[:order_id] }</MNT_TRANSACTION_ID>
-            <MNT_RESULT_CODE>#{ result_code_of(amount, status) }</MNT_RESULT_CODE>
+            <MNT_RESULT_CODE>#{ result_code_of(amount, state) }</MNT_RESULT_CODE>
             <MNT_DESCRIPTION>#{ description }</MNT_DESCRIPTION>
             <MNT_AMOUNT>#{ amount }</MNT_AMOUNT>
           </MNT_RESPONSE>
@@ -85,11 +85,11 @@ module Payanyway
         )
       end
 
-      def result_code_of(amount, status)
+      def result_code_of(amount, state)
         if @pretty_params[:amount].blank? && amount.present?
           RESPONSE_CODE[:set_amount]
         else
-          RESPONSE_CODE[status.to_sym]
+          RESPONSE_CODE[state.to_sym]
         end
       end
 

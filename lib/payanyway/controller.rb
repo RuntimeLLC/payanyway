@@ -85,7 +85,7 @@ module Payanyway
 
     def check_implementation(params)
       # Ответ на запрос о проверке заказа
-      # { amount: AMOUNT, status: STATUS, description: description, attributes: ATTRIBUTES }
+      # { amount: AMOUNT, state: STATE, description: description, attributes: ATTRIBUTES }
     end
   end
 end
