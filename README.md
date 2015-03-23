@@ -54,28 +54,10 @@ class PayanywayController
   def fail_implementation(order_id)
     # вызывается при отправки шлюзом пользователя на Fail URL.
   end
-
-  def return_implementation(order_id)
-    # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
-  end
-
-  def in_progress_implementation(order_id)
-    # Вызывается после успешного запроса на авторизацию средств,
-    # до подтверждения списания и зачисления средств (InProgress URL)
-    #
-    # ВНИМАНИЕ: InProgress URL может быть использован в любом способе оплаты.
-    # Если к моменту, когда пользователя надо вернуть в магазин оплата
-    # по какой-либо причине не завершена, то его перекинет на InProgress, если он указан.
-    # Если InProgress URL не указан, то на Success URL.
-    # Если операция уже успешно выполнилась, то сразу на Success URL.
-    # К примеру, в случае с картами чаще всего получается так, что операция не успевает выполниться,
-    # поэтому InProgress будет использован с бОльшей вероятностью, чем Success URL.
-  end
 end
 ```
 
 Создайте конфигурационный файл: `config/payanyway.yml`
-
 
 ```yml
 development: &config
@@ -113,8 +95,74 @@ class OrdersController < AplicationController
   end
 end
 ```
+### Специальные URL'ы
+Gem **payanyway** добовляет специальные роуты для обработки запросов от шлюза.
+#### Return URL и InProgress URL
 
-### Расшифровка параметров
+```ruby
+class PayanywayController
+ ...
+ def return_implementation(order_id)
+    # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
+  end
+
+  def in_progress_implementation(order_id)
+    # Вызывается после успешного запроса на авторизацию средств,
+    # до подтверждения списания и зачисления средств (InProgress URL)
+    #
+    # ВНИМАНИЕ: InProgress URL может быть использован в любом способе оплаты.
+    # Если к моменту, когда пользователя надо вернуть в магазин оплата
+    # по какой-либо причине не завершена, то его перекинет на InProgress,
+    # если он указан, если не указан, то на Success URL.
+    # Если операция уже успешно выполнилась, то сразу на Success.
+    # В случае с картами чаще всего получается так, что операция не успевает выполниться,
+    # поэтому InProgress будет использован с бОльшей вероятностью, чем Success URL.
+  end
+  ...
+end
+```
+
+#### Check URL
+
+```ruby
+class PayanywayController
+  ...
+  def check_implementation(params)
+    # Вызывается при обработке проверочных запросов (Check URL)
+    # params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
+    # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
+    # :custom1, :custom2, :custom3, :payment_system_unit_id ]
+    
+    # ВНИМАНИЕ: при отправки корректного ответа со стороны магазина, необходимо вернуть в методе параметры, для генерации статус-кода.
+    # { amount: AMOUNT, state: STATE, description: DESCRIPTION, attributes: ATTRIBUTES, logger: true\false }
+  end
+end
+```
+
+Пример метода:
+
+```ruby
+  def check_implementation(params)
+    order = Order.find(params[:order_id])
+    {
+      amount: order.total_amount,
+      state: order.state_for_payanyway, # нужно реализовать
+      attributes: { name: John Smith, email: js@gmail.com }
+    }
+  end
+```
+
+**Возвращаемые параметры:**
+
+ Название                  | Описание
+---------------------------|:-----------------------------------------------------------
+`:amount`                  | Сумма заказа
+`:state`                   | Состояние заказа.
+`:description`             | Описание состояния заказа. Задается в произвольной форме.
+`:attributes`              | Необязательный элемент. Содержит хеш произвольных параметры, которые будут сохранены в операции.
+`:logger`                  | Вывести XML ответ в log (Rails.logger)
+
+### Расшифровка параметров используемых в gem'e
 
  params[ KEY ], где KEY    | Описание
 ---------------------------|:-----------------------------------------------------------
