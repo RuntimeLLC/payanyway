@@ -55,6 +55,8 @@ module Payanyway
         parent.add_child(signature_node(xml))
         parent.add_child(attributes_node(attr[:attributes], xml)) if attr[:attributes].present?
 
+        add_to_logger(xml) if attr[:logger]
+
         xml
       end
 
@@ -109,6 +111,10 @@ module Payanyway
 
       def create_new_node(name, content, xml)
         Nokogiri::XML::Node.new(name, xml).tap { |node| node.content = content }
+      end
+
+      def add_to_logger(xml)
+        Rails.logger.info("PAYANYWAY: XML response for check: \r\n #{ xml.to_xml }")
       end
     end
   end
