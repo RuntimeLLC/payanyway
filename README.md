@@ -17,7 +17,7 @@
 
 При возникновенни вопросов следует ознакомиться с [документацией к шлюзу](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
 
-<a name="installation"></a>## Установка
+##<a name="installation"></a>Установка
 
 Добавьте эти строки в Gemfile вашего приложения:
 
