@@ -2,12 +2,21 @@
 [![Code Climate](https://codeclimate.com/github/ssnikolay/payanyway.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 [![Test Coverage](https://codeclimate.com/github/ssnikolay/payanyway/badges/coverage.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 
+- [Установка](#installation)
+- [Подключение](#setup)
+- [Использование](#usage)
+    - [Запрос на отплату](#payment_url)
+    - [Специальный URL'ы](#special_urls)
+        - [Check URL](#check_url)
+        - [Return URL и InProgress URL](#return_url)
+    - [Расшифровка параметров](#params)
 # Payanyway
 
 Этот gem предназначен для быстрой интеграции платежного шлюза [payanyway](http://payanyway.ru) в ваше ruby приложение.
+
 При возникновенни вопросов следует ознакомиться с [документацией к шлюзу](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
 
-## Установка
+<a name="installation"></a>## Установка
 
 Добавьте эти строки в Gemfile вашего приложения:
 
@@ -23,7 +32,7 @@ gem 'payanyway'
 
     $ gem install payanyway
 
-## Подключение
+<a name="setup"></a>## Подключение
 
 Добавьте engine в `config/routes.rb`
 ```ruby
@@ -71,7 +80,9 @@ production: <<: *config
     payment_url: https://moneta.ru/assistant.htm
     test_mode: 0
 ```
-## Использование
+<a name="usage"></a>## Использование
+
+<a name="payment_url"></a>###Запрос на отплату
 
 Что бы получить ссылку на платежный шлюз для оплаты заказа пользвателем,
 используйте `Payanyway::Gateway.payment_url(params, use_signature = true)`, где `params[ KEY ]` такой, что `KEY` ∈
@@ -97,7 +108,7 @@ class OrdersController < AplicationController
 end
 ```
 
-### Специальные URL'ы
+<a name="special_urls"></a>### Специальные URL'ы
 
 Gem **payanyway** добовляет специальные роуты для обработки запросов от шлюза.
 
