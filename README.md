@@ -10,6 +10,7 @@
         - [Check URL](#check_url)
         - [Return URL и InProgress URL](#return_url)
     - [Расшифровка параметров](#params)
+
 # Payanyway
 
 Этот gem предназначен для быстрой интеграции платежного шлюза [payanyway](http://payanyway.ru) в ваше ruby приложение.
