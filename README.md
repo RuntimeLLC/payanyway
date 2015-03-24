@@ -83,6 +83,11 @@ production: <<: *config
     payment_url: https://moneta.ru/assistant.htm
     test_mode: 0
 ```
+
+В настройках счета **moneta.ru** выберите `HTTP метод: GET`
+
+![Settings](https://raw.github.com/ssnikolay/payanyway/master/settings.png)
+
 ##<a name="usage"></a> Использование
 
 ###<a name="payment_url"></a> Запрос на оплату
