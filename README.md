@@ -58,9 +58,9 @@ class PayanywayController
     # вызывается при оповещении магазина об 
     # успешной оплате пользователем заказа. (Pay URL)
     #
-    #  params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
-    #  :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
-    #  :custom1, :custom2, :custom3 ]
+    # params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
+    # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
+    # :custom1, :custom2, :custom3 ]
   end
   
   def fail_implementation(order_id)
@@ -126,9 +126,9 @@ class PayanywayController
     # :custom1, :custom2, :custom3, :payment_system_unit_id ]
     
     # ВНИМАНИЕ: при отправки корректного ответа со стороны магазина,
-    # необходимо вернуть в методе параметры, для генерации статус-кода.
-    # { amount: AMOUNT, state: STATE, description: DESCRIPTION,
-    # attributes: ATTRIBUTES, logger: true\false }
+    #   необходимо вернуть в методе параметры, для генерации статус-кода.
+    #   { amount: AMOUNT, state: STATE, description: DESCRIPTION,
+    #   attributes: ATTRIBUTES, logger: true\false }
   end
 end
 ```
@@ -181,12 +181,12 @@ class PayanywayController
     # до подтверждения списания и зачисления средств (InProgress URL)
     #
     # ВНИМАНИЕ: InProgress URL может быть использован в любом способе оплаты.
-    # Если к моменту, когда пользователя надо вернуть в магазин оплата
-    # по какой-либо причине не завершена, то его перекинет на InProgress,
-    # если он указан, если не указан, то на Success URL.
-    # Если операция уже успешно выполнилась, то сразу на Success.
-    # В случае с картами чаще всего получается так, что операция не успевает выполниться,
-    # поэтому InProgress будет использован с бОльшей вероятностью, чем Success URL.
+    #   Если к моменту, когда пользователя надо вернуть в магазин оплата
+    #   по какой-либо причине не завершена, то его перекинет на InProgress,
+    #   если он указан, если не указан, то на Success URL.
+    #   Если операция уже успешно выполнилась, то сразу на Success.
+    #   В случае с картами чаще всего получается так, что операция не успевает выполниться,
+    #   поэтому InProgress будет использован с бОльшей вероятностью, чем Success URL.
   end
   ...
 end
