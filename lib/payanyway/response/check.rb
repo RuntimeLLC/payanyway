@@ -3,8 +3,8 @@ module Payanyway
     class InvalidState < Exception; end
 
     class Check < Base
+      SPECIAL_CODE  = 100 # когда в запросе не было суммы, а мы её передает в ответе
       RESPONSE_CODE = {
-        set_amount: 100,
         paid:       200,
         in_process: 302,
         unpaid:     402,
@@ -58,8 +58,8 @@ module Payanyway
 
       private
 
-      def validate_status!(status)
-        if RESPONSE_CODE.keys.exclude?(status.to_sym)
+      def validate_status!(state)
+        if RESPONSE_CODE.keys.exclude?(state.to_sym)
           raise InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
         end
       end
@@ -87,7 +87,7 @@ module Payanyway
 
       def result_code_of(amount, state)
         if @pretty_params[:amount].blank? && amount.present?
-          RESPONSE_CODE[:set_amount]
+          SPECIAL_CODE
         else
           RESPONSE_CODE[state.to_sym]
         end
