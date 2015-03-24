@@ -201,6 +201,8 @@ end
 `:fail_url`                | `MNT_FAIL_URL`           | URL страницы магазина, куда должен попасть покупатель после отмененной или неуспешной оплаты.
 `:return_url`              | `MNT_RETURN_URL`         | URL страницы магазина, куда должен вернуться покупатель при добровольном отказе от оплаты.
 `:attributes`              | `MNT_ATTRIBUTES`         | Содержит произвольные параметры, которые будут сохранены в операции.
+`:payment_system_unit_id`  | `paymentSystem.unitId`   | Конкретная [платежная система](https://www.moneta.ru/viewPaymentMethods.htm)
+`:payment_system_limit_ids`| `paymentSystem.limitIds` | Список (разделенный запятыми) идентификаторов платежных систем.
 
 
 ## Contributing
