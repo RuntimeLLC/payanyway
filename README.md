@@ -5,8 +5,7 @@
 # Payanyway
 
 Этот gem предназначен для быстрой интеграции платежного шлюза [payanyway](http://payanyway.ru) в ваше ruby приложение.
-
-При возникновенни вопросов следует ознакомиться с [http://moneta.ru/doc/MONETA.Assistant.ru.pdf](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
+При возникновенни вопросов следует ознакомиться с [документацией к шлюзу](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
 
 ## Установка
 
