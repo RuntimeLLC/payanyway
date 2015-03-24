@@ -12,8 +12,8 @@
 - [Установка](#installation)
 - [Подключение](#setup)
 - [Использование](#usage)
-    - [Запрос на отплату](#payment_url)
-    - [Специальный URL'ы](#special_urls)
+    - [Запрос на оплату](#payment_url)
+    - [Специальные URL'ы](#special_urls)
         - [Check URL](#check_url)
         - [Return URL и InProgress URL](#return_url)
     - [Расшифровка параметров](#params)
@@ -31,7 +31,7 @@ gem 'payanyway'
 
     $ bundle
 
-Или установки напрямую:
+Или установите напрямую:
 
     $ gem install payanyway
 
@@ -49,7 +49,7 @@ end
 ```ruby
 class PayanywayController
   def success_implementation(order_id)
-    # вызывается при отправки шлюзом пользователя на Success URL.
+    # вызывается при отправке шлюзом пользователя на Success URL.
     #
     # ВНИМАНИЕ: является незащищенным действием!
     # Для выполнения действий после успешной оплаты используйте pay_implementation
@@ -65,7 +65,7 @@ class PayanywayController
   end
   
   def fail_implementation(order_id)
-    # вызывается при отправки шлюзом пользователя на Fail URL.
+    # вызывается при отправке шлюзом пользователя на Fail URL.
   end
 end
 ```
@@ -74,7 +74,7 @@ end
 
 ```yml
 development: &config
-    moneta_id: YOUR_MOTETA_ID
+    moneta_id: YOUR_MONETA_ID
     currency: RUB
     payment_url: https://demo.moneta.ru/assistant.htm
     test_mode: 1
@@ -85,9 +85,9 @@ production: <<: *config
 ```
 ##<a name="usage"></a> Использование
 
-###<a name="payment_url"></a> Запрос на отплату
+###<a name="payment_url"></a> Запрос на оплату
 
-Что бы получить ссылку на платежный шлюз для оплаты заказа пользователем,
+Чтобы получить ссылку на платежный шлюз для оплаты заказа пользователем,
 используйте `Payanyway::Gateway.payment_url(params, use_signature = true)`, где `params[ KEY ]` такой, что `KEY` ∈
 `[:order_id, :amount, :test_mode, :description, :subscriber_id, :custom1, :custom2, :custom3, :locale, :payment_system_unit_id, :payment_system_limit_ids]`
 
@@ -99,7 +99,7 @@ production: <<: *config
 ```ruby
 class Order < ActiveRecord::Base; end
 
-class OrdersController < AplicationController
+class OrdersController < ApplicationController
   def create
     order = Order.create(params[:order])
     redirect_to Payanyway::Gateway.payment_url(
@@ -126,8 +126,8 @@ class PayanywayController
     # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
     # :custom1, :custom2, :custom3, :payment_system_unit_id ]
     
-    # ВНИМАНИЕ: при отправки корректного ответа со стороны магазина,
-    #   необходимо вернуть в методе параметры, для генерации статус-кода.
+    # ВНИМАНИЕ: при отправке корректного ответа со стороны магазина,
+    #   необходимо вернуть в методе параметры для генерации статус-кода.
     #   { amount: AMOUNT, state: STATE, description: DESCRIPTION,
     #   attributes: ATTRIBUTES, logger: true\false }
   end
@@ -143,7 +143,7 @@ def check_implementation(params)
   {
     amount: order.total_amount,
     state: order.state_for_payanyway, # нужно реализовать
-    attributes: { name: John Smith, email: 'js@gmail.com' }
+    attributes: { name: 'John Smith', email: 'js@gmail.com' }
   }
 end
 ...
@@ -156,10 +156,10 @@ end
 `:amount`                  | Сумма заказа
 `:state`                   | Состояние оплаты заказа. (см. [таблицу состояний](#states))
 `:description`             | Описание состояния заказа. Задается в произвольной форме.
-`:attributes`              | Необязательный элемент. Содержит хеш произвольных параметры, которые будут сохранены в операции.
+`:attributes`              | Необязательный элемент. Содержит хеш произвольных параметров, которые будут сохранены в операции.
 `:logger`                  | Вывести XML ответ в log (`Rails.logger`)
 
-<a name="states"></a>**Возможные состояния оплаты заказ:**
+<a name="states"></a>**Возможные состояния оплаты заказа:**
 
  Состояние               | Описание
 -------------------------|:-----------------------------------------------------------
@@ -172,8 +172,8 @@ end
 
 ```ruby
 class PayanywayController
- ...
- def return_implementation(order_id)
+  ...
+  def return_implementation(order_id)
     # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
   end
 
@@ -182,7 +182,7 @@ class PayanywayController
     # до подтверждения списания и зачисления средств (InProgress URL)
     #
     # ВНИМАНИЕ: InProgress URL может быть использован в любом способе оплаты.
-    #   Если к моменту, когда пользователя надо вернуть в магазин оплата
+    #   Если к моменту, когда пользователя надо вернуть в магазин оплата,
     #   по какой-либо причине не завершена, то его перекинет на InProgress,
     #   если он указан, если не указан, то на Success URL.
     #   Если операция уже успешно выполнилась, то сразу на Success.
@@ -193,7 +193,7 @@ class PayanywayController
 end
 ```
 
-###<a name="params"></a> Расшифровка параметров используемых в gem'e
+###<a name="params"></a> Расшифровка параметров, используемых в gem'e
 
  params[ KEY ], где KEY    | В документации           | Описание
 ---------------------------|:-------------------------|:-----------------------------------------
@@ -206,8 +206,8 @@ end
 `:description`             | `MNT_DESCRIPTION`        | Описание оплаты.
 `:subscriber_id`           | `MNT_SUBSCRIBER_ID`      | Внутренний идентификатор пользователя в системе магазина.
 `:corraccount`             | `MNT_CORRACCOUNT`        | Номер счета плательщика.
-`:custom[1|2|3]`           | `MNT_CUSTOM1`            | Поля произвольных параметров. Будут возращены магазину в параметрах отчета о проведенной оплате.
-`:user`                    | `MNT_USER`               | Номер счета пользователя, если оплата производилась с пользовательского счета в системе «MONETA.RU».MONETA.Assistant.
+`:custom[1|2|3]`           | `MNT_CUSTOM1`            | Поля произвольных параметров. Будут возвращены магазину в параметрах отчета о проведенной оплате.
+`:user`                    | `MNT_USER`               | Номер счета пользователя, если оплата производилась с пользовательского счета в системе «MONETA.RU».
 `:locale`                  | `moneta.locale`          | (ru\|en) Язык пользовательского интерфейса.
 `:success_url`             | `MNT_SUCCESS_URL`        | URL страницы магазина, куда должен попасть покупатель после успешно выполненных действий.
 `:in_progress_url`         | `MNT_INPROGRESS_URL`     | URL страницы магазина, куда должен попасть покупатель после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств.
