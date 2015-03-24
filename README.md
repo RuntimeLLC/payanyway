@@ -126,12 +126,12 @@ end
 ```ruby
 ...
 def check_implementation(params)
-order = Order.find(params[:order_id])
-{
-  amount: order.total_amount,
-  state: order.state_for_payanyway, # нужно реализовать
-  attributes: { name: John Smith, email: 'js@gmail.com' }
-}
+  order = Order.find(params[:order_id])
+  {
+    amount: order.total_amount,
+    state: order.state_for_payanyway, # нужно реализовать
+    attributes: { name: John Smith, email: 'js@gmail.com' }
+  }
 end
 ...
 ```
