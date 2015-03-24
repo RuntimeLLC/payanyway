@@ -124,14 +124,16 @@ end
 Пример метода:
 
 ```ruby
-  def check_implementation(params)
-    order = Order.find(params[:order_id])
-    {
-      amount: order.total_amount,
-      state: order.state_for_payanyway, # нужно реализовать
-      attributes: { name: John Smith, email: 'js@gmail.com' }
-    }
-  end
+...
+def check_implementation(params)
+order = Order.find(params[:order_id])
+{
+  amount: order.total_amount,
+  state: order.state_for_payanyway, # нужно реализовать
+  attributes: { name: John Smith, email: 'js@gmail.com' }
+}
+end
+...
 ```
 
 **Возвращаемые параметры:**
@@ -194,8 +196,6 @@ end
 `:custom[1|2|3]`           | `MNT_CUSTOM1`            | Поля произвольных параметров. Будут возращены магазину в параметрах отчета о проведенной оплате.
 `:user`                    | `MNT_USER`               | Номер счета пользователя, если оплата производилась с пользовательского счета в системе «MONETA.RU».MONETA.Assistant.
 `:locale`                  | `moneta.locale`          | (ru\|en) Язык пользовательского интерфейса.
-`:payment_system_unit_id`  | `paymentSystem.unitId`   | Предварительный выбор платежной системы. (https://www.moneta.ru/viewPaymentMethods.htm)
-`:payment_system_limit_ids`| `paymentSystem.limitIds` | Список (разделенный запятыми) идентификаторов платежных систем, которые необходимо показывать пользователю.
 `:success_url`             | `MNT_SUCCESS_URL`        | URL страницы магазина, куда должен попасть покупатель после успешно выполненных действий.
 `:in_progress_url`         | `MNT_INPROGRESS_URL`     | URL страницы магазина, куда должен попасть покупатель после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств.
 `:fail_url`                | `MNT_FAIL_URL`           | URL страницы магазина, куда должен попасть покупатель после отмененной или неуспешной оплаты.
