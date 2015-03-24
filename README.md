@@ -2,6 +2,12 @@
 [![Code Climate](https://codeclimate.com/github/ssnikolay/payanyway.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 [![Test Coverage](https://codeclimate.com/github/ssnikolay/payanyway/badges/coverage.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 
+# Payanyway
+
+Этот gem предназначен для быстрой интеграции платежного шлюза [payanyway](http://payanyway.ru) в ваше ruby приложение.
+
+При возникновенни вопросов следует ознакомиться с [документацией к шлюзу](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
+
 - [Установка](#installation)
 - [Подключение](#setup)
 - [Использование](#usage)
@@ -11,13 +17,7 @@
         - [Return URL и InProgress URL](#return_url)
     - [Расшифровка параметров](#params)
 
-# Payanyway
-
-Этот gem предназначен для быстрой интеграции платежного шлюза [payanyway](http://payanyway.ru) в ваше ruby приложение.
-
-При возникновенни вопросов следует ознакомиться с [документацией к шлюзу](http://moneta.ru/doc/MONETA.Assistant.ru.pdf)
-
-##<a name="installation"></a>Установка
+##<a name="installation"></a> Установка
 
 Добавьте эти строки в Gemfile вашего приложения:
 
@@ -33,7 +33,7 @@ gem 'payanyway'
 
     $ gem install payanyway
 
-<a name="setup"></a>## Подключение
+##<a name="setup"></a> Подключение
 
 Добавьте engine в `config/routes.rb`
 ```ruby
@@ -81,9 +81,9 @@ production: <<: *config
     payment_url: https://moneta.ru/assistant.htm
     test_mode: 0
 ```
-<a name="usage"></a>## Использование
+##<a name="usage"></a> Использование
 
-<a name="payment_url"></a>###Запрос на отплату
+###<a name="payment_url"></a> Запрос на отплату
 
 Что бы получить ссылку на платежный шлюз для оплаты заказа пользвателем,
 используйте `Payanyway::Gateway.payment_url(params, use_signature = true)`, где `params[ KEY ]` такой, что `KEY` ∈
@@ -109,11 +109,11 @@ class OrdersController < AplicationController
 end
 ```
 
-<a name="special_urls"></a>### Специальные URL'ы
+###<a name="special_urls"></a> Специальные URL'ы
 
 Gem **payanyway** добовляет специальные роуты для обработки запросов от шлюза.
 
-#### Check URL
+####<a name="check_url"></a> Check URL
 
 ```ruby
 class PayanywayController
@@ -166,7 +166,7 @@ end
 `:unpaid`                | Заказ создан и готов к оплате. Уведомление об оплате магазину не доставлено.
 `:canceled`              | Заказ не является актуальным в магазине (например, заказ отменен). 
 
-#### Return URL и InProgress URL
+####<a name="return_url"></a> Return URL и InProgress URL
 
 ```ruby
 class PayanywayController
@@ -191,7 +191,7 @@ class PayanywayController
 end
 ```
 
-### Расшифровка параметров используемых в gem'e
+###<a name="params"></a> Расшифровка параметров используемых в gem'e
 
  params[ KEY ], где KEY    | В документации           | Описание
 ---------------------------|:-------------------------|:-----------------------------------------
