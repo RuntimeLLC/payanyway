@@ -1,4 +1,4 @@
-describe Payanyway::Response::Base do
+describe Payanyway::Request::Base do
   let(:service) { described_class.new(params) }
   let(:params) { { 'MNT_ID' => 1, 'MNT_AMOUNT' => 10.20 } }
 

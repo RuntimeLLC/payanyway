@@ -13,7 +13,7 @@ require 'rspec/rails'
 require 'pry'
 require 'codeclimate-test-reporter'
 
-CodeClimate::TestReporter.start
+CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
 
 
 RSpec.configure do |config|

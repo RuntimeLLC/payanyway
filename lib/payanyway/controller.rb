@@ -7,44 +7,44 @@ module Payanyway
     end
 
     def pay
-      service = Payanyway::Response::Pay.new(params)
-      service.success? ?
-        pay_implementation(service.pretty_params) :
-        Rails.logger.error(service.error_message)
+      request = Payanyway::Request::Pay.new(params)
+      request.success? ?
+        pay_implementation(request.pretty_params) :
+        Rails.logger.error(request.error_message)
 
-      render text: service.result
+      render text: request.response
     end
 
     def success
-      service = Payanyway::Response::Base.new(params)
+      request = Payanyway::Request::Base.new(params)
 
-      success_implementation(service.pretty_params)
+      success_implementation(request.pretty_params)
     end
 
     def fail
-      service = Payanyway::Response::Base.new(params)
+      request = Payanyway::Request::Base.new(params)
 
-      fail_implementation(service.pretty_params[:order_id])
+      fail_implementation(request.pretty_params[:order_id])
     end
 
     def return
-      service = Payanyway::Response::Base.new(params)
+      request = Payanyway::Request::Base.new(params)
 
-      return_implementation(service.pretty_params[:order_id])
+      return_implementation(request.pretty_params[:order_id])
     end
 
     def in_progress
-      service = Payanyway::Response::Base.new(params)
+      request = Payanyway::Request::Base.new(params)
 
-      in_progress_implementation(service.pretty_params[:order_id])
+      in_progress_implementation(request.pretty_params[:order_id])
     end
 
     def check
-      service = Payanyway::Response::Check.new(params)
-      if service.pretty_params.present?
-        raise service.error_message unless service.success?
+      request = Payanyway::Request::Check.new(params)
+      if request.pretty_params.present?
+        raise request.error_message unless request.success?
 
-        render xml: service.result(check_implementation(service.pretty_params)).to_xml
+        render xml: request.response(check_implementation(request.pretty_params)).to_xml
       else
         # Не выдавать ошибку, если параметры пустые
         # Необходимо для проверки со стороны moneta.ru
@@ -91,7 +91,7 @@ module Payanyway
 
     def check_implementation(params)
       # Ответ на запрос о проверке заказа
-      # { amount: AMOUNT, state: STATE, description: description, attributes: ATTRIBUTES }
+      # { amount: AMOUNT, state: STATE, description: description, attributes: ATTRIBUTES, logger: logger }
     end
   end
 end

@@ -1,4 +1,4 @@
-describe Payanyway::Response::Pay do
+describe Payanyway::Request::Pay do
   let(:service) { described_class.new(params) }
   let(:params) do
     {

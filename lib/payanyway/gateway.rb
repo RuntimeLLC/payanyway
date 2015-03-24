@@ -47,7 +47,7 @@ module Payanyway
       #     * _params[return_url]_    - URL страницы магазина, куда должен вернуться покупатель при добровольном отказе от оплаты.
 
 
-      Payanyway::Request::PaymentUrl.build(params, use_signature)
+      Payanyway::Factories::PaymentUrlFactory.build(params, use_signature)
     end
 
     class << self

@@ -1,4 +1,4 @@
-describe Payanyway::Response::Check do
+describe Payanyway::Request::Check do
   RSpec::Matchers.define :be_eq_node do |expected|
     def value_of(node)
       elements = node.children.select { |e| e.instance_of? Nokogiri::XML::Element }
@@ -22,8 +22,8 @@ describe Payanyway::Response::Check do
     }
   end
 
-  describe '#result' do
-    let(:xml) { service.result(amount: amount, state: state, description: description, attributes: attributes) }
+  describe '#response' do
+    let(:xml) { service.response(amount: amount, state: state, description: description, attributes: attributes) }
     let(:amount) { request_amount }
     let(:state) { :unpaid }
     let(:description) { 'Заказ создан, но не оплачен' }

@@ -1,5 +1,5 @@
 module Payanyway
-  module Response
+  module Request
     class Base
       @@_params = { 'MNT_TRANSACTION_ID' => :order_id }.invert.to_settings
 

@@ -1,6 +1,6 @@
 module Payanyway
-  module Request
-    class PaymentUrl
+  module Factories
+    class PaymentUrlFactory
       PARAMS = {
           'MNT_TRANSACTION_ID'     => :order_id,
           'MNT_AMOUNT'             => :amount,

@@ -1,5 +1,5 @@
 module Payanyway
-  module Response
+  module Request
     class Pay < Base
       @@_params = {
         'MNT_ID'             => :moneta_id,
@@ -26,7 +26,7 @@ module Payanyway
         @valid_signature
       end
 
-      def result
+      def response
         @valid_signature ? 'SUCCESS' : 'FAIL'
       end
 
