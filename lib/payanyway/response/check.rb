@@ -5,10 +5,10 @@ module Payanyway
     class Check < Base
       SPECIAL_CODE  = 100 # когда в запросе не было суммы, а мы её передает в ответе
       RESPONSE_CODE = {
-        paid:       200,
-        in_process: 302,
-        unpaid:     402,
-        canceled:   500
+        paid:        200,
+        in_progress: 302,
+        unpaid:      402,
+        canceled:    500
       }
 
       @@_params = {
