@@ -1,6 +1,6 @@
 require 'uri'
 
-describe Payanyway::Request::PaymentUrl do
+describe Payanyway::Factories::PaymentUrlFactory do
   subject do
     parse_url = URI(described_class.build(params, false))
 

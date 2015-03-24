@@ -4,9 +4,10 @@ require 'active_support/core_ext'
 require 'payanyway/helpers/settings'
 require 'payanyway/helpers/signature_generator'
 
-require 'payanyway/request/payment_url'
-require 'payanyway/response/base'
-require 'payanyway/response/pay'
+require 'payanyway/factories/payment_url_factory'
+require 'payanyway/request/base'
+require 'payanyway/request/pay'
+require 'payanyway/request/check'
 
 require 'payanyway/gateway'
 require 'payanyway/engine'

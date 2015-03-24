@@ -1,7 +1,9 @@
 module Payanyway
   module Response
     class InvalidState < Exception; end
+  end
 
+  module Request
     class Check < Base
       SPECIAL_CODE  = 100 # когда в запросе не было суммы, а мы её передает в ответе
       RESPONSE_CODE = {
@@ -38,7 +40,7 @@ module Payanyway
         @valid_signature
       end
 
-      def result(attr)
+      def response(attr)
         # Возвращает Nokogiri::XML документ
         #  * _attr[:amount]      - сумма заказа
         #  * _attr[:state]      - статус платежа(см. RESPONSE_CODE)
@@ -60,7 +62,7 @@ module Payanyway
 
       def validate_status!(state)
         if RESPONSE_CODE.keys.exclude?(state.to_sym)
-          raise InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
+          raise Payanyway::Response::InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
         end
       end
 
