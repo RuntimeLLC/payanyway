@@ -92,6 +92,8 @@ module Payanyway
     def check_implementation(params)
       # Ответ на запрос о проверке заказа
       # { amount: AMOUNT, state: STATE, description: description, attributes: ATTRIBUTES, logger: logger }
+
+      { amount: params[:amount], state: :unpaid, description: 'Test description' }
     end
   end
 end
