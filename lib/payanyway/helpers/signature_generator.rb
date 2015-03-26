@@ -4,6 +4,7 @@ module Payanyway
   module Helpers
     class SignatureGenerate
       BASE_KEYS = %w(
+        moneta_id
         MNT_TRANSACTION_ID
         MNT_OPERATION_ID
         MNT_AMOUNT
@@ -31,11 +32,17 @@ module Payanyway
         def generate_by(params, keys)
           values = keys.map { |key| get_value(params, key) }.join
 
-          md5(Payanyway::Gateway.config['moneta_id'].to_s + values + Payanyway::Gateway.config['token'])
+          md5(values + Payanyway::Gateway.config['token'])
         end
 
         def get_value(params, key)
-          (key == 'MNT_AMOUNT' && params[key].present?) ? '%.2f' % params[key] : params[key]
+          if key == 'MNT_AMOUNT' && params[key].present?
+            '%.2f' % params[key]
+          elsif key == 'moneta_id'
+            Payanyway::Gateway.config['moneta_id'].to_s
+          else
+            params[key]
+          end
         end
 
         def md5(str)

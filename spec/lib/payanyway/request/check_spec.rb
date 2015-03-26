@@ -38,7 +38,7 @@ describe Payanyway::Request::Check do
             <MNT_RESULT_CODE>402</MNT_RESULT_CODE>
             <MNT_DESCRIPTION>Заказ создан, но не оплачен</MNT_DESCRIPTION>
             <MNT_AMOUNT>10.2</MNT_AMOUNT>
-            <MNT_SIGNATURE>061c2b859c27c75db9e5bbef3aef90a0</MNT_SIGNATURE>
+            <MNT_SIGNATURE>11cf20faee5e4b2b89808a09e4f6bfeb</MNT_SIGNATURE>
           </MNT_RESPONSE>
         EOXML
         expected_xml = Nokogiri::XML(expected, nil, 'UTF-8')
