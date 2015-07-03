@@ -86,7 +86,7 @@ production: <<: *config
 
 В настройках счета **moneta.ru** выберите `HTTP метод: GET`
 
-![Settings](https://raw.github.com/ssnikolay/payanyway/master/settings.png)
+![Settings](https://raw.github.com/ssnikolay/payanyway/master/settings.jpg)
 
 ##<a name="usage"></a> Использование
 
