@@ -48,14 +48,14 @@ end
 
 ```ruby
 class PayanywayController
-  def success_implementation(order_id)
+  def success
     # вызывается при отправке шлюзом пользователя на Success URL.
     #
     # ВНИМАНИЕ: является незащищенным действием!
-    # Для выполнения действий после успешной оплаты используйте pay_implementation
+    # Для выполнения действий после успешной оплаты используйте pay
   end
   
-  def pay_implementation(params)
+  def pay
     # вызывается при оповещении магазина об 
     # успешной оплате пользователем заказа. (Pay URL)
     #
@@ -64,7 +64,7 @@ class PayanywayController
     # :custom1, :custom2, :custom3 ]
   end
   
-  def fail_implementation(order_id)
+  def fail
     # вызывается при отправке шлюзом пользователя на Fail URL.
   end
 end
@@ -74,11 +74,11 @@ end
 
 ```yml
 development: &config
-    moneta_id: YOUR_MONETA_ID
-    currency: RUB
-    payment_url: https://demo.moneta.ru/assistant.htm
-    test_mode: 1
-    token: secret_token
+    moneta_id: YOUR_MONETA_ID # номер счета
+    currency: RUB # валюта
+    payment_url: https://demo.moneta.ru/assistant.htm # url подтверждения оплаты
+    test_mode: 1 # режим тестирования
+    token: secret_token # Код проверки целостности данных
 production: <<: *config
     payment_url: https://moneta.ru/assistant.htm
     test_mode: 0
@@ -125,7 +125,7 @@ Gem **payanyway** добавляет специальные роуты для о
 ```ruby
 class PayanywayController
   ...
-  def check_implementation(params)
+  def check
     # Вызывается при обработке проверочных запросов (Check URL)
     # params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
     # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
@@ -143,7 +143,7 @@ end
 
 ```ruby
 ...
-def check_implementation(params)
+def check
   order = Order.find(params[:order_id])
   {
     amount: order.total_amount,
@@ -178,11 +178,11 @@ end
 ```ruby
 class PayanywayController
   ...
-  def return_implementation(order_id)
+  def return
     # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
   end
 
-  def in_progress_implementation(order_id)
+  def in_progress
     # Вызывается после успешного запроса на авторизацию средств,
     # до подтверждения списания и зачисления средств (InProgress URL)
     #
