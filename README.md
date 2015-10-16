@@ -47,7 +47,9 @@ end
 Создайте `app/controllers/payanyway_controller.rb` со следующим кодом:
 
 ```ruby
-class PayanywayController
+class PayanywayController < ApplicationController
+  include Payanyway::Controller
+
   def success_implementation(order_id)
     # вызывается при отправке шлюзом пользователя на Success URL.
     #
