@@ -22,5 +22,11 @@ describe Payanyway::Gateway do
 
       it { is_expected.to be_include('MNT_SIGNATURE') }
     end
+
+    context 'when moneta_id is override' do
+      let(:params) { { amount: '120.25', order_id: 'FF790ABCD', moneta_id: '54321' } }
+
+      it { is_expected.to eq('https://demo.moneta.ru/assistant.htm?MNT_ID=54321&MNT_CURRENCY_CODE=RUB&MNT_TEST_MODE=1&MNT_AMOUNT=120.25&MNT_TRANSACTION_ID=FF790ABCD') }
+    end
   end
 end
