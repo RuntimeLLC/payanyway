@@ -16,7 +16,7 @@ module Payanyway
       @@_params = {
           'MNT_COMMAND'          => :command,
           'MNT_ID'               => :moneta_id,
-          'MNT_TRANSACTION_ID'   => :order_id,
+          'MNT_TRANSACTION_ID'   => :transaction_id,
           'MNT_OPERATION_ID'     => :operation_id,
           'MNT_AMOUNT'           => :amount,
           'MNT_CURRENCY_CODE'    => :currency,
@@ -72,7 +72,7 @@ module Payanyway
         xml = <<-EOXML
           <MNT_RESPONSE>
             <MNT_ID>#{ Payanyway::Gateway.config['moneta_id'] }</MNT_ID>
-            <MNT_TRANSACTION_ID>#{ @pretty_params[:order_id] }</MNT_TRANSACTION_ID>
+            <MNT_TRANSACTION_ID>#{ @pretty_params[:transaction_id] }</MNT_TRANSACTION_ID>
             <MNT_RESULT_CODE>#{ result_code_of(amount, state) }</MNT_RESULT_CODE>
             <MNT_DESCRIPTION>#{ description }</MNT_DESCRIPTION>
             <MNT_AMOUNT>#{ amount }</MNT_AMOUNT>

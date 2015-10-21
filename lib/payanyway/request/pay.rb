@@ -3,7 +3,7 @@ module Payanyway
     class Pay < Base
       @@_params = {
         'MNT_ID'             => :moneta_id,
-        'MNT_TRANSACTION_ID' => :order_id,
+        'MNT_TRANSACTION_ID' => :transaction_id,
         'MNT_OPERATION_ID'   => :operation_id,
         'MNT_AMOUNT'         => :amount,
         'MNT_CURRENCY_CODE'  => :currency,

@@ -2,7 +2,11 @@ module Payanyway
   module Factories
     class PaymentUrlFactory
       PARAMS = {
-          'MNT_TRANSACTION_ID'     => :order_id,
+          'MNT_ID'                 => :moneta_id,
+          'MNT_TEST_MODE'          => :test_mode,
+          'MNT_CURRENCY_CODE'      => :currency,
+
+          'MNT_TRANSACTION_ID'     => :transaction_id,
           'MNT_AMOUNT'             => :amount,
           'MNT_DESCRIPTION'        => :description,
           'MNT_SUBSCRIBER_ID'      => :subscriber_id,

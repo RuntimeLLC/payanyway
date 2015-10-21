@@ -50,7 +50,7 @@ end
 class PayanywayController < ApplicationController
   include Payanyway::Controller
 
-  def success_implementation(order_id)
+  def success_implementation(transaction_id)
     # вызывается при отправке шлюзом пользователя на Success URL.
     #
     # ВНИМАНИЕ: является незащищенным действием!
@@ -61,12 +61,12 @@ class PayanywayController < ApplicationController
     # вызывается при оповещении магазина об 
     # успешной оплате пользователем заказа. (Pay URL)
     #
-    # params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
+    # params[ KEY ], где KEY ∈ [ :moneta_id, :transaction_id, :operation_id,
     # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
     # :custom1, :custom2, :custom3 ]
   end
   
-  def fail_implementation(order_id)
+  def fail_implementation(transaction_id)
     # вызывается при отправке шлюзом пользователя на Fail URL.
   end
 end
@@ -96,7 +96,7 @@ production: <<: *config
 
 Чтобы получить ссылку на платежный шлюз для оплаты заказа пользователем,
 используйте `Payanyway::Gateway.payment_url(params, use_signature = true)`, где `params[ KEY ]` такой, что `KEY` ∈
-`[:order_id, :amount, :test_mode, :description, :subscriber_id, :custom1, :custom2, :custom3, :locale, :payment_system_unit_id, :payment_system_limit_ids]`
+`[:transaction_id, :amount, :test_mode, :description, :subscriber_id, :custom1, :custom2, :custom3, :locale, :payment_system_unit_id, :payment_system_limit_ids]`
 
 Если в настройках счета в системе **moneta.ru** выставлен флаг «Можно переопределять настройки в URL», то можно так же передавать   
 `[:success_url, :in_progress_url, :fail_url, :return_url]`.
@@ -110,13 +110,15 @@ class OrdersController < ApplicationController
   def create
     order = Order.create(params[:order])
     redirect_to Payanyway::Gateway.payment_url(
-      order_id: order.id,
+      transaction_id: order.id,
       amount: order.total_amount,
       description: "Оплата заказа № #{ order.number } на сумму #{ order.total_amount }руб."
     )
   end
 end
 ```
+
+*Примечание: при необходимости можно переопределить `moneta_id`, `currency`, `test_mode`, так же передав их в payment_url.*
 
 ###<a name="special_urls"></a> Специальные URL'ы
 
@@ -129,7 +131,7 @@ class PayanywayController
   ...
   def check_implementation(params)
     # Вызывается при обработке проверочных запросов (Check URL)
-    # params[ KEY ], где KEY ∈ [ :moneta_id, :order_id, :operation_id,
+    # params[ KEY ], где KEY ∈ [ :moneta_id, :transaction_id, :operation_id,
     # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
     # :custom1, :custom2, :custom3, :payment_system_unit_id ]
     
@@ -146,7 +148,7 @@ end
 ```ruby
 ...
 def check_implementation(params)
-  order = Order.find(params[:order_id])
+  order = Order.find(params[:transaction_id])
   {
     amount: order.total_amount,
     state: order.state_for_payanyway, # нужно реализовать
@@ -180,11 +182,11 @@ end
 ```ruby
 class PayanywayController
   ...
-  def return_implementation(order_id)
+  def return_implementation(transaction_id)
     # Вызывается при добровольном отказе пользователем от оплаты (Return URL)
   end
 
-  def in_progress_implementation(order_id)
+  def in_progress_implementation(transaction_id)
     # Вызывается после успешного запроса на авторизацию средств,
     # до подтверждения списания и зачисления средств (InProgress URL)
     #
@@ -205,7 +207,7 @@ end
  params[ KEY ], где KEY    | В документации           | Описание
 ---------------------------|:-------------------------|:-----------------------------------------
 `:moneta_id`               | `MNT_ID`                 | Идентификатор магазина в системе MONETA.RU.
-`:order_id`                | `MNT_TRANSACTION_ID`     | Внутренний идентификатор заказа, однозначно определяющий заказ в магазине.
+`:transaction_id`          | `MNT_TRANSACTION_ID`     | Внутренний идентификатор заказа, однозначно определяющий заказ в магазине.
 `:operation_id`            | `MNT_OPERATION_ID`       | Номер операции в системе MONETA.RU.
 `:amount`                  | `MNT_AMOUNT`             | Фактическая сумма, полученная на оплату заказа.
 `:currency`                | `MNT_CURRENCY_CODE`      | ISO код валюты, в которой произведена оплата заказа в магазине.

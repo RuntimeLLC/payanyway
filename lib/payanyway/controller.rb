@@ -24,19 +24,19 @@ module Payanyway
     def fail
       request = Payanyway::Request::Base.new(params)
 
-      fail_implementation(request.pretty_params[:order_id])
+      fail_implementation(request.pretty_params[:transaction_id])
     end
 
     def return
       request = Payanyway::Request::Base.new(params)
 
-      return_implementation(request.pretty_params[:order_id])
+      return_implementation(request.pretty_params[:transaction_id])
     end
 
     def in_progress
       request = Payanyway::Request::Base.new(params)
 
-      in_progress_implementation(request.pretty_params[:order_id])
+      in_progress_implementation(request.pretty_params[:transaction_id])
     end
 
     def check
@@ -58,34 +58,34 @@ module Payanyway
       # Вызывается после успешного прохождения
       # запроса об оплате от payanyway.ru
 
-      Rails.logger.info("PAYANYWAY: Success paid order #{ params[:order_id] }")
+      Rails.logger.info("PAYANYWAY: Success paid order #{ params[:transaction_id] }")
     end
 
     def success_implementation(params)
       # Вызывается после успешной оплаты
 
-      Rails.logger.info("PAYANYWAY: Called success payment url for order '#{ params[:order_id] }'")
+      Rails.logger.info("PAYANYWAY: Called success payment url for order '#{ params[:transaction_id] }'")
       render nothing: true
     end
 
-    def fail_implementation(order_id)
+    def fail_implementation(transaction_id)
       # Вызывается после ошибки при оплате
 
-      Rails.logger.error("PAYANYWAY: Fail paid order '#{ order_id }'")
+      Rails.logger.error("PAYANYWAY: Fail paid order '#{ transaction_id }'")
       render nothing: true
     end
 
-    def return_implementation(order_id)
+    def return_implementation(transaction_id)
       # Вызывается при добровольном отказе пользователем от оплаты
 
-      Rails.logger.info("PAYANYWAY: Return from payanyway. Order '#{ order_id }'")
+      Rails.logger.info("PAYANYWAY: Return from payanyway. Order '#{ transaction_id }'")
       render nothing: true
     end
 
-    def in_progress_implementation(order_id)
+    def in_progress_implementation(transaction_id)
       # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
 
-      Rails.logger.info("PAYANYWAY: Order '#{ order_id }' in progress")
+      Rails.logger.info("PAYANYWAY: Order '#{ transaction_id }' in progress")
       render nothing: true
     end
 
