@@ -118,6 +118,8 @@ class OrdersController < ApplicationController
 end
 ```
 
+*Примечание: при необходимости можно переопределить `moneta_id`, `currency`, `test_mode`, так же передав их в payment_url.*
+
 ###<a name="special_urls"></a> Специальные URL'ы
 
 Gem **payanyway** добавляет специальные роуты для обработки запросов от шлюза.

@@ -5,6 +5,7 @@ module Payanyway
           'MNT_ID'                 => :moneta_id,
           'MNT_TEST_MODE'          => :test_mode,
           'MNT_CURRENCY_CODE'      => :currency,
+
           'MNT_TRANSACTION_ID'     => :transaction_id,
           'MNT_AMOUNT'             => :amount,
           'MNT_DESCRIPTION'        => :description,
