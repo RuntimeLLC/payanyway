@@ -11,7 +11,7 @@ describe Payanyway::Factories::PaymentUrlFactory do
     let(:params) {
       {
         amount: '120.25',
-        order_id: 'FF790ABCD',
+        transaction_id: 'FF790ABCD',
         success_url: 'success_url',
         in_progress_url: 'in_progress_url',
         fail_url: 'fail_url',
@@ -29,7 +29,7 @@ describe Payanyway::Factories::PaymentUrlFactory do
     let(:params) {
       {
         amount: '120.25',
-        order_id: 'FF790ABCD',
+        transaction_id: 'FF790ABCD',
         locale: 'ru',
         payment_system_unit_id: '1015',
         payment_system_limit_ids: '1015,1017'
