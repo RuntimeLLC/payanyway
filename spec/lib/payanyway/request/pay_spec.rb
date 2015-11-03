@@ -2,7 +2,7 @@ describe Payanyway::Request::Pay do
   let(:service) { described_class.new(params) }
   let(:params) do
     {
-      'MNT_ID'             => 1,
+      'MNT_ID'             => Payanyway::Gateway.config['moneta_id'].to_s,
       'MNT_TRANSACTION_ID' => 2,
       'MNT_OPERATION_ID'   => 3,
       'MNT_AMOUNT'         => 10.20,
