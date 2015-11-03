@@ -4,7 +4,7 @@ module Payanyway
   module Helpers
     class SignatureGenerate
       BASE_KEYS = %w(
-        moneta_id
+        MNT_ID
         MNT_TRANSACTION_ID
         MNT_OPERATION_ID
         MNT_AMOUNT
@@ -38,8 +38,6 @@ module Payanyway
         def get_value(params, key)
           if key == 'MNT_AMOUNT' && params[key].present?
             '%.2f' % params[key]
-          elsif key == 'moneta_id'
-            Payanyway::Gateway.config['moneta_id'].to_s
           else
             params[key]
           end

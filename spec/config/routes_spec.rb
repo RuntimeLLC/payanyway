@@ -2,32 +2,32 @@ describe Payanyway::Engine, type: :routing do
   routes { Payanyway::Engine.routes }
 
   context 'payanyway' do
-    specify { get('/success').should route_to(
+    specify { expect(get('/success')).to route_to(
        controller: 'payanyway',
        action: 'success'
     )}
 
-    specify { get('/pay').should route_to(
+    specify { expect(get('/pay')).to route_to(
       controller: 'payanyway',
       action: 'pay'
     )}
 
-    specify { get('/fail').should route_to(
+    specify { expect(get('/fail')).to route_to(
       controller: 'payanyway',
       action: 'fail'
     )}
 
-    specify { get('/return').should route_to(
+    specify { expect(get('/return')).to route_to(
       controller: 'payanyway',
       action: 'return'
     )}
 
-    specify { get('/in_progress').should route_to(
+    specify { expect(get('/in_progress')).to route_to(
       controller: 'payanyway',
       action: 'in_progress'
     )}
 
-    specify { get('/check').should route_to(
+    specify { expect(get('/check')).to route_to(
       controller: 'payanyway',
       action: 'check'
     )}
