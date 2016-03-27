@@ -1,5 +1,5 @@
 [![Gem Version](https://badge.fury.io/rb/payanyway.svg)](http://badge.fury.io/rb/payanyway)
-[![Build Status](https://travis-ci.org/ssnikolay/payanyway.svg?branch=master)](https://travis-ci.org/ssnikolay/payanyway)
+[![Build Status](https://travis-ci.org/RuntimeLLC/payanyway.svg?branch=master)](https://travis-ci.org/RuntimeLLC/payanyway)
 [![Code Climate](https://codeclimate.com/github/ssnikolay/payanyway.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 [![Test Coverage](https://codeclimate.com/github/ssnikolay/payanyway/badges/coverage.svg)](https://codeclimate.com/github/ssnikolay/payanyway)
 
