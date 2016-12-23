@@ -28,5 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry'
   spec.add_development_dependency 'pumper'
   spec.add_development_dependency 'combustion', '~> 0.5.3'
-  spec.add_development_dependency 'codeclimate-test-reporter'
+  spec.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
 end

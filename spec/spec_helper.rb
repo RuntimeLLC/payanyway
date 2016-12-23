@@ -11,10 +11,9 @@ Combustion.initialize! :action_controller, :action_view
 require 'payanyway'
 require 'rspec/rails'
 require 'pry'
-require 'codeclimate-test-reporter'
+require 'simplecov'
 
-CodeClimate::TestReporter.start if ENV['CODECLIMATE_REPO_TOKEN']
-
+SimpleCov.start
 
 RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
