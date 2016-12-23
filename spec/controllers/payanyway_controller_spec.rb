@@ -2,8 +2,8 @@ describe PayanywayController do
   routes { Payanyway::Engine.routes }
 
   describe 'GET #success' do
-    it 'should and message to logger' do
-      expect(Rails.logger).to receive(:info).with("PAYANYWAY: Called success payment url for order '676'")
+    it 'should add message to logger' do
+      expect(Rails.logger).to receive(:info).with("PAYANYWAY: Called success payment url for order '676'").and_call_original
 
       get :success, { 'MNT_TRANSACTION_ID' => 676 }
     end
@@ -18,7 +18,7 @@ describe PayanywayController do
   end
 
   describe 'GET #return' do
-    it 'should and message to logger' do
+    it 'should add message to logger' do
       expect(Rails.logger).to receive(:info).with("PAYANYWAY: Return from payanyway. Order '676'")
 
       get :return, { 'MNT_TRANSACTION_ID' => 676 }
@@ -26,7 +26,7 @@ describe PayanywayController do
   end
 
   describe 'GET #in_progress' do
-    it 'should and message to logger' do
+    it 'should add message to logger' do
       expect(Rails.logger).to receive(:info).with("PAYANYWAY: Order '676' in progress")
 
       get :in_progress, { 'MNT_TRANSACTION_ID' => 676 }
@@ -47,7 +47,7 @@ describe PayanywayController do
     end
 
     context 'when valid signature' do
-      it 'should and message to logger' do
+      it 'should add message to logger' do
         expect(Rails.logger).not_to receive(:info).with(/PAYANYWAY: XML response for check/)
         expect_any_instance_of(Payanyway::Controller).to receive(:check_implementation).and_return(amount: 12, state: :paid)
 
