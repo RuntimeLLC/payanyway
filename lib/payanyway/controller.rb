@@ -12,7 +12,7 @@ module Payanyway
         pay_implementation(request.pretty_params) :
         Rails.logger.error(request.error_message)
 
-      render text: request.response
+      render plain: request.response
     end
 
     def success
