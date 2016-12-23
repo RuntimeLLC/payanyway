@@ -1,6 +1,8 @@
 require 'rails'
 require 'active_support/core_ext'
 
+require 'nokogiri'
+
 require 'payanyway/helpers/settings'
 require 'payanyway/helpers/signature_generator'
 

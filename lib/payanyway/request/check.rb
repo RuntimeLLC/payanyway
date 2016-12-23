@@ -79,7 +79,7 @@ module Payanyway
           </MNT_RESPONSE>
         EOXML
 
-        Nokogiri::XML(xml, nil, 'UTF-8')
+        ::Nokogiri::XML(xml, nil, 'UTF-8')
       end
 
       def signature_node(xml)
