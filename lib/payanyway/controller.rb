@@ -7,7 +7,7 @@ module Payanyway
     end
 
     def pay
-      request = Payanyway::Request::Pay.new(params)
+      request = Payanyway::Request::Pay.new(permitted_params)
       request.success? ?
         pay_implementation(request.pretty_params) :
         Rails.logger.error(request.error_message)
@@ -16,31 +16,31 @@ module Payanyway
     end
 
     def success
-      request = Payanyway::Request::Base.new(params)
+      request = Payanyway::Request::Base.new(permitted_params)
 
       success_implementation(request.pretty_params)
     end
 
     def fail
-      request = Payanyway::Request::Base.new(params)
+      request = Payanyway::Request::Base.new(permitted_params)
 
       fail_implementation(request.pretty_params[:transaction_id])
     end
 
     def return
-      request = Payanyway::Request::Base.new(params)
+      request = Payanyway::Request::Base.new(permitted_params)
 
       return_implementation(request.pretty_params[:transaction_id])
     end
 
     def in_progress
-      request = Payanyway::Request::Base.new(params)
+      request = Payanyway::Request::Base.new(permitted_params)
 
       in_progress_implementation(request.pretty_params[:transaction_id])
     end
 
     def check
-      request = Payanyway::Request::Check.new(params)
+      request = Payanyway::Request::Check.new(permitted_params)
       if request.pretty_params.present?
         raise request.error_message unless request.success?
 
@@ -53,6 +53,11 @@ module Payanyway
     end
 
     private
+
+    def permitted_params
+      params.permit! if params.respond_to?(:permit!)
+      params.to_h
+    end
 
     def pay_implementation(params)
       # Вызывается после успешного прохождения
