@@ -3,7 +3,7 @@ module Payanyway
     extend ActiveSupport::Concern
 
     included do
-      skip_before_filter :verify_authenticity_token
+      protect_from_forgery with: :null_session
     end
 
     def pay
@@ -48,7 +48,7 @@ module Payanyway
       else
         # Не выдавать ошибку, если параметры пустые
         # Необходимо для проверки со стороны moneta.ru
-        render nothing: true
+        head :ok
       end
     end
 
@@ -63,30 +63,31 @@ module Payanyway
 
     def success_implementation(params)
       # Вызывается после успешной оплаты
+      puts Rails.logger.object_id
 
       Rails.logger.info("PAYANYWAY: Called success payment url for order '#{ params[:transaction_id] }'")
-      render nothing: true
+      head :ok
     end
 
     def fail_implementation(transaction_id)
       # Вызывается после ошибки при оплате
 
       Rails.logger.error("PAYANYWAY: Fail paid order '#{ transaction_id }'")
-      render nothing: true
+      head :ok
     end
 
     def return_implementation(transaction_id)
       # Вызывается при добровольном отказе пользователем от оплаты
 
       Rails.logger.info("PAYANYWAY: Return from payanyway. Order '#{ transaction_id }'")
-      render nothing: true
+      head :ok
     end
 
     def in_progress_implementation(transaction_id)
       # Вызывается после успешного запроса на авторизацию средств, до подтверждения списания и зачисления средств
 
       Rails.logger.info("PAYANYWAY: Order '#{ transaction_id }' in progress")
-      render nothing: true
+      head :ok
     end
 
     def check_implementation(params)
