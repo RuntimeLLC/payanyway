@@ -3,7 +3,20 @@ language: ruby
 rvm:
   - 2.0.0
   - 2.1
-  - 2.2
+  - 2.2.2
+  - 2.3
+
+env:
+  - RAILS_VERSION=3.2.22.5
+  - RAILS_VERSION=4.2.7.1
+  - RAILS_VERSION=5.0.1
+
+matrix:
+  exclude:
+  - rvm: 2.1
+    env: RAILS_VERSION=5.0.1
+  - rvm: 2.0.0
+    env: RAILS_VERSION=5.0.1
 
 script:
   - CODECLIMATE_REPO_TOKEN=41f20e51bdd84fed15a9717bd19c4aef62c96cd8be6e8fb61c08a69c840deb7a bundle exec rspec
