@@ -1,7 +1,6 @@
 language: ruby
 
 rvm:
-  - 2.0.0
   - 2.1
   - 2.2.2
   - 2.3.3
@@ -14,8 +13,6 @@ env:
 matrix:
   exclude:
   - rvm: 2.1
-    env: RAILS_VERSION=5.0.1
-  - rvm: 2.0.0
     env: RAILS_VERSION=5.0.1
 
 script:
