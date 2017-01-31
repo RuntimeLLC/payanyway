@@ -17,7 +17,7 @@
         - [Check URL](#check_url)
         - [Return URL и InProgress URL](#return_url)
     - [Расшифровка параметров](#params)
-        - [Параметры, отвечающие за выбор платежной системы](#payment_ids)
+        - [Автоматическое прохождение MONETA.Assistant](#auto_assistant)
 
 ##<a name="installation"></a> Установка
 
@@ -95,13 +95,16 @@ production: <<: *config
 ###<a name="payment_url"></a> Запрос на оплату
 
 Чтобы получить ссылку на платежный шлюз для оплаты заказа пользователем,
-используйте `Payanyway::Gateway.payment_url(params, use_signature = true)`, где `params[ KEY ]` такой, что `KEY` ∈
-`[:transaction_id, :amount, :test_mode, :description, :subscriber_id, :custom1, :custom2, :custom3, :locale, :payment_system_unit_id, :payment_system_limit_ids]`
+используйте хелпер
 
-Если в настройках счета в системе **moneta.ru** выставлен флаг «Можно переопределять настройки в URL», то можно так же передавать   
+`Payanyway::Gateway.payment_url(params, use_signature = true)`
+
+Описание всех возможных параметров запроса (ключей params) находится [здесь](#params).
+
+Если в настройках счета в системе **moneta.ru** выставлен флаг «Можно переопределять настройки в URL», то можно так же передавать
 `[:success_url, :in_progress_url, :fail_url, :return_url]`.
 
-Пример минимальной ссылки:
+Пример минимальной ссылки для оплаты:
 
 ```ruby
 class Order < ActiveRecord::Base; end
@@ -134,7 +137,7 @@ class PayanywayController
     # params[ KEY ], где KEY ∈ [ :moneta_id, :transaction_id, :operation_id,
     # :amount, :currency, :subscriber_id, :test_mode, :user, :corraccount,
     # :custom1, :custom2, :custom3, :payment_system_unit_id ]
-    
+
     # ВНИМАНИЕ: при отправке корректного ответа со стороны магазина,
     #   необходимо вернуть в методе параметры для генерации статус-кода.
     #   { amount: AMOUNT, state: STATE, description: DESCRIPTION,
@@ -175,7 +178,7 @@ end
 `:paid`                  | Заказ оплачен. Уведомление об оплате магазину доставлено.
 `:in_progress`           | Заказ находится в обработке. Точный статус оплаты заказа определить невозможно. (например, если пользователя отправило на InProgress URL, но уведомления на Pay URL от шлюза еще не поступало)
 `:unpaid`                | Заказ создан и готов к оплате. Уведомление об оплате магазину не доставлено.
-`:canceled`              | Заказ не является актуальным в магазине (например, заказ отменен). 
+`:canceled`              | Заказ не является актуальным в магазине (например, заказ отменен).
 
 ####<a name="return_url"></a> Return URL и InProgress URL
 
@@ -223,14 +226,16 @@ end
 `:fail_url`                | `MNT_FAIL_URL`           | URL страницы магазина, куда должен попасть покупатель после отмененной или неуспешной оплаты.
 `:return_url`              | `MNT_RETURN_URL`         | URL страницы магазина, куда должен вернуться покупатель при добровольном отказе от оплаты.
 `:attributes`              | `MNT_ATTRIBUTES`         | Содержит произвольные параметры, которые будут сохранены в операции.
-
-####<a name="payment_ids"></a> Параметры, отвечающие за выбор платежной системы:
-
-params[ KEY ], где KEY     | В документации           | Описание
----------------------------|:-------------------------|:-----------------------------------------
-`:payment_system_unit_id`  | `paymentSystem.unitId`   | Конкретная [платежная система](https://www.moneta.ru/viewPaymentMethods.htm)
 `:payment_system_limit_ids`| `paymentSystem.limitIds` | Список (разделенный запятыми) идентификаторов платежных систем.
 
+####<a name="auto_assistant"></a> Автоматическое прохождение MONETA.Assistant:
+
+params[ KEY ], где KEY       | В документации           | Описание
+-----------------------------|:--------------------------|:-----------------------------------------
+`:followup`                  | `followup`                | Пройти весь MONETA.Assistant с предустановленными значениями. Для этого необходимо выбрать платежную систему и заполнить параметры платежной системы (если они есть).
+`:payment_system_unit_id`    | `paymentSystem.unitId`    | (1015 – МОНЕТА.РУ, 1020 – Яндекс.Деньги, 1017 – WebMoney и т.п.) Предварительный выбор платежной системы. Полный список способов оплаты можно посмотреть: https://www.moneta.ru/viewPaymentMethods.htm
+`:javascript_enabled`        | `javascriptEnabled`       | (true\|false) Признак возможности использовать javascript для автоматической обработки форм.
+`:payment_system_account_id` | `paymentSystem.accountId` | Номер счета платежной системы. Например, тип кошелька WebMoney, 2 – WMR, 3 – WMZ, 4 – WME.
 
 ## Contributing
 
