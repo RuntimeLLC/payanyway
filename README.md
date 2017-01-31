@@ -97,7 +97,9 @@ production: <<: *config
 Чтобы получить ссылку на платежный шлюз для оплаты заказа пользователем,
 используйте хелпер
 
-`Payanyway::Gateway.payment_url(params, use_signature = true)`
+```ruby
+Payanyway::Gateway.payment_url(params, use_signature = true)
+```
 
 Описание всех возможных параметров запроса (ключей params) находится [здесь](#params).
 
