@@ -2,27 +2,32 @@ module Payanyway
   module Factories
     class PaymentUrlFactory
       PARAMS = {
-          'MNT_ID'                 => :moneta_id,
-          'MNT_TEST_MODE'          => :test_mode,
-          'MNT_CURRENCY_CODE'      => :currency,
+          'MNT_ID'                  => :moneta_id,
+          'MNT_TEST_MODE'           => :test_mode,
+          'MNT_CURRENCY_CODE'       => :currency,
 
-          'MNT_TRANSACTION_ID'     => :transaction_id,
-          'MNT_AMOUNT'             => :amount,
-          'MNT_DESCRIPTION'        => :description,
-          'MNT_SUBSCRIBER_ID'      => :subscriber_id,
+          'MNT_TRANSACTION_ID'      => :transaction_id,
+          'MNT_AMOUNT'              => :amount,
+          'MNT_DESCRIPTION'         => :description,
+          'MNT_SUBSCRIBER_ID'       => :subscriber_id,
 
-          'MNT_SUCCESS_URL'        => :success_url,
-          'MNT_INPROGRESS_URL'     => :in_progress_url,
-          'MNT_FAIL_URL'           => :fail_url,
-          'MNT_RETURN_URL'         => :return_url,
+          'MNT_SUCCESS_URL'         => :success_url,
+          'MNT_INPROGRESS_URL'      => :in_progress_url,
+          'MNT_FAIL_URL'            => :fail_url,
+          'MNT_RETURN_URL'          => :return_url,
 
-          'MNT_CUSTOM1'            => :custom1,
-          'MNT_CUSTOM2'            => :custom2,
-          'MNT_CUSTOM3'            => :custom3,
+          'MNT_CUSTOM1'             => :custom1,
+          'MNT_CUSTOM2'             => :custom2,
+          'MNT_CUSTOM3'             => :custom3,
 
-          'moneta.locale'          => :locale,
-          'paymentSystem.unitId'   => :payment_system_unit_id,
-          'paymentSystem.limitIds' => :payment_system_limit_ids
+          'moneta.locale'           => :locale,
+          'paymentSystem.limitIds'  => :payment_system_limit_ids,
+
+          # Дополнительные параметры запроса на оплату
+          'followup'                => :followup,
+          'paymentSystem.unitId'    => :payment_system_unit_id,
+          'javascriptEnabled'       => :javascript_enabled,
+          'paymentSystem.accountId' => :payment_system_account_id
           # 'MNT_SIGNATURE'        => добавляется при use_signature == true
       }.to_settings
 
