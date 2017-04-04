@@ -2,5 +2,6 @@ test:
   moneta_id: 141290
   currency: RUB
   payment_url: https://demo.moneta.ru/assistant.htm
+  widget_url: https://demo.moneta.ru/assistant.widget
   test_mode: 1
   token: secret_token

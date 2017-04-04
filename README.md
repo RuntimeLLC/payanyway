@@ -13,6 +13,7 @@
 - [Подключение](#setup)
 - [Использование](#usage)
     - [Запрос на оплату](#payment_url)
+    - [Получение URL для отображения виджета оплаты](#widget_url)
     - [Специальные URL'ы](#special_urls)
         - [Check URL](#check_url)
         - [Return URL и InProgress URL](#return_url)
@@ -99,6 +100,15 @@ production: <<: *config
 
 ```ruby
 Payanyway::Gateway.payment_url(params, use_signature = true)
+```
+
+###<a name="widget_url"></a> Получение URL для отображения виджета оплаты
+
+Чтобы получить ссылку на виджет для оплаты заказа пользователем,
+используйте хелпер
+
+```ruby
+Payanyway::Gateway.widget_url(params, use_signature = true)
 ```
 
 Описание всех возможных параметров запроса (ключей params) находится [здесь](#params).

@@ -50,6 +50,10 @@ module Payanyway
       Payanyway::Factories::PaymentUrlFactory.build(params, use_signature)
     end
 
+    def widget_url(params, use_signature = true)
+      Payanyway::Factories::WidgetUrlFactory.build(params, use_signature)
+    end
+
     class << self
       extend Forwardable
       def_delegators(:instance, *Payanyway::Gateway.instance_methods(false))

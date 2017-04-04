@@ -1,9 +1,9 @@
 module Payanyway
   module Factories
-    class PaymentUrlFactory
+    class WidgetUrlFactory
       def self.build(params, use_signature)
         [
-          Payanyway::Gateway.config['payment_url'],
+          Payanyway::Gateway.config['widget_url'],
           Payanyway::Factories::QueryParamsFactory.build(params, use_signature)
         ].join('?')
       end

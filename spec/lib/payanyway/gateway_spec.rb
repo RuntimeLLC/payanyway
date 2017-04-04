@@ -29,4 +29,12 @@ describe Payanyway::Gateway do
       it { is_expected.to eq('https://demo.moneta.ru/assistant.htm?MNT_ID=54321&MNT_CURRENCY_CODE=RUB&MNT_TEST_MODE=1&MNT_AMOUNT=120.25&MNT_TRANSACTION_ID=FF790ABCD') }
     end
   end
+
+  describe '#widget_url' do
+    let(:params) { { amount: '120.25', transaction_id: 'FF790ABCD' } }
+
+    subject { described_class.widget_url(params, false) }
+
+    it { is_expected.to eq('https://demo.moneta.ru/assistant.widget?MNT_ID=141290&MNT_CURRENCY_CODE=RUB&MNT_TEST_MODE=1&MNT_AMOUNT=120.25&MNT_TRANSACTION_ID=FF790ABCD') }
+  end
 end
