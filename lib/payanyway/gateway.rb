@@ -50,8 +50,8 @@ module Payanyway
       Payanyway::Factories::PaymentUrlFactory.build(params, use_signature)
     end
 
-    def iframe_url(params, use_signature = true)
-      Payanyway::Factories::IframeUrlFactory.build(params, use_signature)
+    def widget_url(params, use_signature = true)
+      Payanyway::Factories::WidgetUrlFactory.build(params, use_signature)
     end
 
     class << self

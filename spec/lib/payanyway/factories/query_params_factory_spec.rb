@@ -1,10 +1,10 @@
 require 'uri'
 
-describe Payanyway::Factories::PaymentUrlFactory do
+describe Payanyway::Factories::QueryParamsFactory do
   subject do
-    parse_url = URI(described_class.build(params, false))
+    built_params = described_class.build(params, false)
 
-    Hash[ URI.decode_www_form(parse_url.query) ]
+    Hash[ URI.decode_www_form(built_params) ]
   end
 
   context 'when reset urls' do

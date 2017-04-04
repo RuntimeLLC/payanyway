@@ -30,10 +30,10 @@ describe Payanyway::Gateway do
     end
   end
 
-  describe '#iframe_url' do
+  describe '#widget_url' do
     let(:params) { { amount: '120.25', transaction_id: 'FF790ABCD' } }
 
-    subject { described_class.iframe_url(params, false) }
+    subject { described_class.widget_url(params, false) }
 
     it { is_expected.to eq('https://demo.moneta.ru/assistant.widget?MNT_ID=141290&MNT_CURRENCY_CODE=RUB&MNT_TEST_MODE=1&MNT_AMOUNT=120.25&MNT_TRANSACTION_ID=FF790ABCD') }
   end
