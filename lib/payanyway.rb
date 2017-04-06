@@ -7,6 +7,7 @@ require 'payanyway/helpers/settings'
 require 'payanyway/helpers/signature_generator'
 
 require 'payanyway/factories/payment_url_factory'
+require 'payanyway/factories/widget_url_factory'
 require 'payanyway/request/base'
 require 'payanyway/request/pay'
 require 'payanyway/request/check'
