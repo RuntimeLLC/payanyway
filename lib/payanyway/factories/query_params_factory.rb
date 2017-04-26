@@ -22,6 +22,7 @@ module Payanyway
 
         'moneta.locale'           => :locale,
         'paymentSystem.limitIds'  => :payment_system_limit_ids,
+        'operationId'             => :operation_id,
 
         # Дополнительные параметры запроса на оплату
         'followup'                => :followup,
