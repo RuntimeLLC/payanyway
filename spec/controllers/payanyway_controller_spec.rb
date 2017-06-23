@@ -1,6 +1,15 @@
 describe PayanywayController do
   routes { Payanyway::Engine.routes }
 
+  describe 'GET #pay' do
+
+    it 'should render "FAIL" text' do
+      get :pay
+      expect(response.body).to eq('FAIL')
+    end
+
+  end
+
   describe 'GET #success' do
     it 'should add message to logger' do
       expect(Rails.logger).to receive(:info).with("PAYANYWAY: Called success payment url for order '676'").and_call_original
