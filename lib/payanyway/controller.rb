@@ -12,7 +12,11 @@ module Payanyway
         pay_implementation(request.pretty_params) :
         Rails.logger.error(request.error_message)
 
-      render plain: request.response
+      if Gem::Version.new(Rails.version) < Gem::Version.new('5.1')
+        render text: request.response
+      else
+        render plain: request.response
+      end
     end
 
     def success
