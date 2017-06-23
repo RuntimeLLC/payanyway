@@ -3,36 +3,9 @@ describe PayanywayController do
 
   describe 'GET #pay' do
 
-    describe 'rendering' do
-      before(:each){ allow(Rails).to receive(:version){ rails_version } }
-
-      context 'when Rails version is "5.1"' do
-        let(:rails_version){ '5.1' }
-
-        it 'renders using :plain' do
-          expect(controller).to receive(:render).with(:plain => anything).and_call_original
-          get :pay
-        end
-      end
-
-      context 'when Rails version is greater than "5.1"' do
-        let(:rails_version){ %w(5.1.2 5.3.3 6.0).sample }
-
-        it 'renders using :plain' do
-          expect(controller).to receive(:render).with(:plain => anything).and_call_original
-          get :pay
-        end
-      end
-
-      context 'when Rails version is less than "5.1"' do
-        let(:rails_version){ %w(4.0.3 4.2.0 5.0.3).sample }
-
-        it 'renders using :text' do
-          expect(controller).to receive(:render).with(:text => anything).and_call_original
-          get :pay
-        end
-      end
-
+    it 'should render "FAIL" text' do
+      get :pay
+      expect(response.body).to eq('FAIL')
     end
 
   end
