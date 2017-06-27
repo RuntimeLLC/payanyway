@@ -4,6 +4,11 @@ module Payanyway
 
     included do
       protect_from_forgery with: :null_session
+      if respond_to?(:skip_before_action)
+        skip_before_action :verify_authenticity_token
+      else
+        skip_before_filter :verify_authenticity_token
+      end
     end
 
     def pay
