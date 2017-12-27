@@ -43,7 +43,7 @@ module Payanyway
       def response(attr)
         # Возвращает Nokogiri::XML документ
         #  * _attr[:amount]      - сумма заказа
-        #  * _attr[:state]      - статус платежа(см. RESPONSE_CODE)
+        #  * _attr[:state]       - статус платежа (см. RESPONSE_CODE)
         #  * _attr[:description] - Произвольное описание заказа (необязятельно)
         #  * _attr[:attributes]  - Произвольный атрибуты заказа (необязятельно)
 
@@ -63,9 +63,8 @@ module Payanyway
       private
 
       def validate_status!(state)
-        if RESPONSE_CODE.keys.exclude?(state.to_sym)
-          raise Payanyway::Response::InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
-        end
+        return if RESPONSE_CODE.keys.include?(state.to_s.to_sym)
+        raise Payanyway::Response::InvalidState.new("PAYANYWAY: Invalid response state! State must be eq #{ RESPONSE_CODE.keys }")
       end
 
       def base_xml(amount, state, description)
